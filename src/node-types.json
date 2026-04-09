@@ -179,6 +179,78 @@
     }
   },
   {
+    "type": "field_item",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "field_expression",
+            "named": true
+          },
+          {
+            "type": "in_value",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthetical",
+            "named": true
+          },
+          {
+            "type": "pre_unary_expression",
+            "named": true
+          },
+          {
+            "type": "variable_binding",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "function_item",
     "named": true,
     "fields": {
@@ -234,6 +306,10 @@
           "named": true
         },
         {
+          "type": "field_item",
+          "named": true
+        },
+        {
           "type": "function_item",
           "named": true
         },
@@ -263,6 +339,10 @@
         },
         {
           "type": "variable_binding",
+          "named": true
+        },
+        {
+          "type": "variants_item",
           "named": true
         }
       ]
@@ -353,6 +433,10 @@
           "named": true
         },
         {
+          "type": "field_item",
+          "named": true
+        },
+        {
           "type": "function_item",
           "named": true
         },
@@ -382,6 +466,10 @@
         },
         {
           "type": "variable_binding",
+          "named": true
+        },
+        {
+          "type": "variants_item",
           "named": true
         }
       ]
@@ -408,6 +496,10 @@
           "named": true
         },
         {
+          "type": "field_item",
+          "named": true
+        },
+        {
           "type": "function_item",
           "named": true
         },
@@ -437,6 +529,10 @@
         },
         {
           "type": "variable_binding",
+          "named": true
+        },
+        {
+          "type": "variants_item",
           "named": true
         }
       ]
@@ -530,6 +626,10 @@
           "named": true
         },
         {
+          "type": "field_item",
+          "named": true
+        },
+        {
           "type": "function_item",
           "named": true
         },
@@ -560,6 +660,10 @@
         {
           "type": "variable_binding",
           "named": true
+        },
+        {
+          "type": "variants_item",
+          "named": true
         }
       ]
     }
@@ -588,6 +692,47 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "variant",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "variants_item",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "variant",
+          "named": true
+        }
+      ]
     }
   },
   {

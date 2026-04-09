@@ -66,8 +66,26 @@ module.exports = grammar({
         _statement_paragraph: $ => seq($._paragraph_feed, $._statement, repeat(seq(';', $._statement))),
 
         _statement: $ => choice(
+            $.field_item,
+            $.variants_item,
             $.function_item,
             $._expr,
+        ),
+
+        field_item: $ => seq(
+            '.',
+            optional(field('name', $.name)),
+            optional(seq(':', field('type', $._type))),
+            optional(seq('=', field('value', $._expr))),
+        ),
+
+        variants_item: $ => scope($, '|', $._variants_paragraph, '|'),
+
+        _variants_paragraph: $ => seq($._paragraph_feed, $.variant, repeat(seq(';', $.variant))),
+
+        variant: $ => choice(
+            seq(field('name', $.name), optional(field('type', $._type))),
+            seq(':', field('type', $._type)),
         ),
 
         function_item: $ => seq(
