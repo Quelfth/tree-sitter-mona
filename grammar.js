@@ -58,18 +58,23 @@ module.exports = grammar({
     word: $ => $.identifier,
 
     rules: {
-        // TODO: add the actual grammar rules
         source_file: $ => repeat(
-            $._statement_paragraph,
+            $._item_paragraph,
         ),
 
-        _statement_paragraph: $ => seq($._paragraph_feed, $._statement, repeat(seq(';', $._statement))),
+        _item_paragraph: $ => seq($._paragraph_feed, $._statement, repeat(seq(';', $._statement))),
 
-        _statement: $ => choice(
+        _item: $ => choice(
             $.variable_item,
             $.function_item,
-            $._expr,
+            $._statement,
         ),
+
+        _statement: $ => choice(
+            $.expression_statement,
+        ),
+
+        expression_statement: $ => $._expr,
 
         variable_item: $ => seq(
             $._expr,
@@ -85,7 +90,7 @@ module.exports = grammar({
                 $.named_parameters,
             )),
             optional(seq('->', field('return_type', $._type))),
-            scope($, '{', $._statement_paragraph, '}'),
+            scope($, '{', $._item_paragraph, '}'),
         ),
 
         simple_parameter: $ => seq('(', optional($._type), ')'),
@@ -111,8 +116,8 @@ module.exports = grammar({
             $.object,
         ),
 
-        parenthetical: $ => scope($, '(', $._statement_paragraph, ')'),
-        object: $ => scope($, '{', $._statement_paragraph, '}'),
+        parenthetical: $ => scope($, '(', $._item_paragraph, ')'),
+        object: $ => scope($, '{', $._item_paragraph, '}'),
 
         field_expression: $ => prec.left('postfix', seq(field('value', $._expr), '.', field('field', $.name))),
 
