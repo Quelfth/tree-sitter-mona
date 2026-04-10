@@ -28,6 +28,10 @@ function sep_list(rule, separator) {
     return optional(sep_list1(rule, separator))
 }
 
+function paragraph($, rule) {
+    return seq($._paragraph_feed, rule, repeat(seq(';', rule)))
+}
+
 module.exports = grammar({
     name: "mona",
 
@@ -43,6 +47,11 @@ module.exports = grammar({
         $._paragraph_continue,
     ],
 
+    conflicts: $ => [
+        [$._statement, $._member_item],
+        [$._statement_item, $._member_item],
+    ],
+
     precedences: $ => [
         [
             'postfix',
@@ -52,6 +61,10 @@ module.exports = grammar({
             'comparison',
             'equality',
             'logical',
+        ],
+        [
+            'object',
+            'function',
         ]
     ],
 
@@ -59,27 +72,34 @@ module.exports = grammar({
 
     rules: {
         source_file: $ => repeat(
-            $._item_paragraph,
+            $._statement_paragraph,
         ),
 
-        _item_paragraph: $ => seq($._paragraph_feed, $._statement, repeat(seq(';', $._statement))),
-
-        _item: $ => choice(
-            $.variable_item,
-            $.function_item,
-            $._statement,
-        ),
+        _statement_paragraph: $ => paragraph($, $._statement),
 
         _statement: $ => choice(
+            $.variable_statement,
             $.expression_statement,
+            $._statement_item,
+        ),
+
+        _statement_item: $ => choice(
+            $.function_item,
         ),
 
         expression_statement: $ => $._expr,
 
-        variable_item: $ => seq(
+        variable_statement: $ => seq(
             $._expr,
             '=',
             $._expr,
+        ),
+
+        _member_paragraph: $ => paragraph($, $._member_item),
+
+        _member_item: $ => choice(
+            alias($.variable_statement, $.field_item),
+            $.function_item,
         ),
 
         function_item: $ => seq(
@@ -90,7 +110,7 @@ module.exports = grammar({
                 $.named_parameters,
             )),
             optional(seq('->', field('return_type', $._type))),
-            scope($, '{', $._item_paragraph, '}'),
+            scope($, '{', $._statement_paragraph, '}'),
         ),
 
         simple_parameter: $ => seq('(', optional($._type), ')'),
@@ -104,6 +124,7 @@ module.exports = grammar({
             $.name,
             $.variable_binding,
             $.parenthetical,
+            $.function,
             $.object,
             $.field_expression,
             $.call_expression,
@@ -116,8 +137,9 @@ module.exports = grammar({
             $.object,
         ),
 
-        parenthetical: $ => scope($, '(', $._item_paragraph, ')'),
-        object: $ => scope($, '{', $._item_paragraph, '}'),
+        parenthetical: $ => scope($, '(', $._statement_paragraph, ')'),
+        function: $ => prec('function', scope($, '{', $._statement_paragraph, '}')),
+        object: $ => prec('object', scope($, '{', $._member_paragraph, '}')),
 
         field_expression: $ => prec.left('postfix', seq(field('value', $._expr), '.', field('field', $.name))),
 
