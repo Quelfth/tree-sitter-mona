@@ -66,26 +66,15 @@ module.exports = grammar({
         _statement_paragraph: $ => seq($._paragraph_feed, $._statement, repeat(seq(';', $._statement))),
 
         _statement: $ => choice(
-            $.field_item,
-            $.variants_item,
+            $.variable_item,
             $.function_item,
             $._expr,
         ),
 
-        field_item: $ => seq(
-            '.',
-            optional(field('name', $.name)),
-            optional(seq(':', field('type', $._type))),
-            optional(seq('=', field('value', $._expr))),
-        ),
-
-        variants_item: $ => scope($, '|', $._variants_paragraph, '|'),
-
-        _variants_paragraph: $ => seq($._paragraph_feed, $.variant, repeat(seq(';', $.variant))),
-
-        variant: $ => choice(
-            seq(field('name', $.name), optional(field('type', $._type))),
-            seq(':', field('type', $._type)),
+        variable_item: $ => seq(
+            $._expr,
+            '=',
+            $._expr,
         ),
 
         function_item: $ => seq(
@@ -136,7 +125,7 @@ module.exports = grammar({
             prec.left('additive', seq($._expr, choice('+', '-'), $._expr)),
             prec.left('multiplicative', seq($._expr, choice('*', '/'), $._expr)),
             prec.left('comparison', seq($._expr, choice('<', '>', '<=', '>='), $._expr)),
-            prec.left('equality', seq($._expr, choice('!=', '='), $._expr)),
+            prec.left('equality', seq($._expr, choice('!=', '=='), $._expr)),
             prec.left('logical', seq($._expr, choice('&', '|'), $._expr)),
         ),
 
