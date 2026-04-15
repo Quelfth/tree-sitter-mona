@@ -32,6 +32,8 @@ function paragraph($, rule) {
     return seq($._paragraph_feed, rule, repeat(seq(';', rule)))
 }
 
+const identifier = /\+?[\p{XID_Start}]([-\+]?[\p{XID_Continue}])*/;
+
 module.exports = grammar({
     name: "mona",
 
@@ -54,6 +56,7 @@ module.exports = grammar({
 
     precedences: $ => [
         [
+            'method',
             'postfix',
             'prefix',
             'multiplicative',
@@ -120,14 +123,15 @@ module.exports = grammar({
 
         _expr: $ => choice(
             $.integer,
-            $.in_value,
-            $.name,
+            $.it_value,
+            $._scoped_name,
             $.variable_binding,
             $.parenthetical,
             $.function,
             $.object,
             $.field_expression,
             $.call_expression,
+            $.method_call_expression,
             $.pre_unary_expression,
             $.binary_expression,
         ),
@@ -141,7 +145,7 @@ module.exports = grammar({
         function: $ => prec('function', scope($, '{', $._statement_paragraph, '}')),
         object: $ => prec('object', scope($, '{', $._member_paragraph, '}')),
 
-        field_expression: $ => prec.left('postfix', seq(field('value', $._expr), '.', field('field', $.name))),
+        field_expression: $ => prec.left('postfix', seq(field('value', $._expr), '.', field('field', $._scoped_name))),
 
         pre_unary_expression: $ => prec.left('prefix', choice(
             seq('-', $._expr),
@@ -161,16 +165,44 @@ module.exports = grammar({
             field('argument', $._argument_expr),
         )),
 
-        variable_binding: $ => seq(field('name', $.name), ':', optional(field('type', $._type))),
+        method_call_expression: $ => prec.left('method', seq(
+            field('value', $._expr),
+            '.',
+            field('method', $._scoped_name),
+            field('argument', $._argument_expr),
+        )),
+
+        variable_binding: $ => prec.left(seq(field('name', $.name), ':', optional(field('type', $._type)))),
 
         _type: $ => choice(
-            $.name,
+            $._scoped_name,
         ),
 
-        in_value: $ => 'in',
+        it_value: $ => 'it',
+
+        _scoped_name: $ => choice(
+            $.name,
+            $.scoped_name,
+        ),
+
+        scoped_name: $ => seq(
+            choice(
+                '/',
+                seq(
+                    choice(
+                        $.scope_symbol,
+                        $._scoped_name,
+                    ),
+                    token.immediate('/'),
+                ),
+            ),
+            $.name
+        ),
+
+        scope_symbol: $ => choice('.', '~', '/'),
 
         name: $ => $.identifier,
-        identifier: $ => /[\p{XID_Start}](-?[\p{XID_Continue}])*/,
+        identifier: $ => identifier,
 
         integer: $ => choice(
             seq(choice(
@@ -197,5 +229,5 @@ function immediate(name, re) {
 }
 
 function lit_suffix($) {
-    return optional(alias(token.immediate(/:?[\p{XID_Start}](-?[\p{XID_Continue}])*/), $.literal_suffix))
+    return optional(alias(token.immediate(seq(':', identifier)), $.literal_suffix))
 }

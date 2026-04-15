@@ -24,11 +24,15 @@
           "named": true
         },
         {
-          "type": "in_value",
+          "type": "integer",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
           "named": true
         },
         {
@@ -45,6 +49,10 @@
         },
         {
           "type": "pre_unary_expression",
+          "named": true
+        },
+        {
+          "type": "scoped_name",
           "named": true
         },
         {
@@ -93,11 +101,15 @@
             "named": true
           },
           {
-            "type": "in_value",
+            "type": "integer",
             "named": true
           },
           {
-            "type": "integer",
+            "type": "it_value",
+            "named": true
+          },
+          {
+            "type": "method_call_expression",
             "named": true
           },
           {
@@ -114,6 +126,10 @@
           },
           {
             "type": "pre_unary_expression",
+            "named": true
+          },
+          {
+            "type": "scoped_name",
             "named": true
           },
           {
@@ -149,11 +165,15 @@
           "named": true
         },
         {
-          "type": "in_value",
+          "type": "integer",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
           "named": true
         },
         {
@@ -173,6 +193,10 @@
           "named": true
         },
         {
+          "type": "scoped_name",
+          "named": true
+        },
+        {
           "type": "variable_binding",
           "named": true
         }
@@ -189,6 +213,10 @@
         "types": [
           {
             "type": "name",
+            "named": true
+          },
+          {
+            "type": "scoped_name",
             "named": true
           }
         ]
@@ -214,11 +242,15 @@
             "named": true
           },
           {
-            "type": "in_value",
+            "type": "integer",
             "named": true
           },
           {
-            "type": "integer",
+            "type": "it_value",
+            "named": true
+          },
+          {
+            "type": "method_call_expression",
             "named": true
           },
           {
@@ -235,6 +267,10 @@
           },
           {
             "type": "pre_unary_expression",
+            "named": true
+          },
+          {
+            "type": "scoped_name",
             "named": true
           },
           {
@@ -270,11 +306,15 @@
           "named": true
         },
         {
-          "type": "in_value",
+          "type": "integer",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
           "named": true
         },
         {
@@ -291,6 +331,10 @@
         },
         {
           "type": "pre_unary_expression",
+          "named": true
+        },
+        {
+          "type": "scoped_name",
           "named": true
         },
         {
@@ -358,6 +402,10 @@
           {
             "type": "name",
             "named": true
+          },
+          {
+            "type": "scoped_name",
+            "named": true
           }
         ]
       }
@@ -401,6 +449,98 @@
     }
   },
   {
+    "type": "method_call_expression",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthetical",
+            "named": true
+          }
+        ]
+      },
+      "method": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "scoped_name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "field_expression",
+            "named": true
+          },
+          {
+            "type": "function",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "it_value",
+            "named": true
+          },
+          {
+            "type": "method_call_expression",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthetical",
+            "named": true
+          },
+          {
+            "type": "pre_unary_expression",
+            "named": true
+          },
+          {
+            "type": "scoped_name",
+            "named": true
+          },
+          {
+            "type": "variable_binding",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "name",
     "named": true,
     "fields": {},
@@ -425,6 +565,10 @@
       "types": [
         {
           "type": "name",
+          "named": true
+        },
+        {
+          "type": "scoped_name",
           "named": true
         }
       ]
@@ -512,11 +656,15 @@
           "named": true
         },
         {
-          "type": "in_value",
+          "type": "integer",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
           "named": true
         },
         {
@@ -536,7 +684,39 @@
           "named": true
         },
         {
+          "type": "scoped_name",
+          "named": true
+        },
+        {
           "type": "variable_binding",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "scope_symbol",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "scoped_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "scope_symbol",
+          "named": true
+        },
+        {
+          "type": "scoped_name",
           "named": true
         }
       ]
@@ -552,6 +732,10 @@
       "types": [
         {
           "type": "name",
+          "named": true
+        },
+        {
+          "type": "scoped_name",
           "named": true
         }
       ]
@@ -602,6 +786,10 @@
           {
             "type": "name",
             "named": true
+          },
+          {
+            "type": "scoped_name",
+            "named": true
           }
         ]
       }
@@ -632,11 +820,15 @@
           "named": true
         },
         {
-          "type": "in_value",
+          "type": "integer",
           "named": true
         },
         {
-          "type": "integer",
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
           "named": true
         },
         {
@@ -653,6 +845,10 @@
         },
         {
           "type": "pre_unary_expression",
+          "named": true
+        },
+        {
+          "type": "scoped_name",
           "named": true
         },
         {
@@ -771,7 +967,7 @@
     "named": true
   },
   {
-    "type": "in_value",
+    "type": "it_value",
     "named": true
   },
   {
@@ -788,6 +984,10 @@
   },
   {
     "type": "}",
+    "named": false
+  },
+  {
+    "type": "~",
     "named": false
   }
 ]
