@@ -120,7 +120,7 @@ module.exports = grammar({
         simple_parameter: $ => seq('(', optional($._type), ')'),
         named_parameters: $ => seq('{', sep_list($.named_parameter, ','), '}'),
 
-        named_parameter: $ => seq($.name, ':', $._type),
+        named_parameter: $ => seq(field('name', $.name), ':', field('type', $._type)),
 
         _expr: $ => choice(
             $.integer,

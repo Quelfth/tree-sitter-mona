@@ -558,20 +558,31 @@
   {
     "type": "named_parameter",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "scoped_name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "scoped_name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {

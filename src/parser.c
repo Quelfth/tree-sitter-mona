@@ -7561,7 +7561,7 @@ static const TSParseActionEntry ts_parse_actions[] = {
   [482] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_simple_parameter, 2, 0, 0),
   [484] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_named_parameters, 5, 0, 0),
   [486] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_named_parameters, 3, 0, 0),
-  [488] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_named_parameter, 3, 0, 0),
+  [488] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_named_parameter, 3, 0, 4),
   [490] = {.entry = {.count = 1, .reusable = true}}, REDUCE(sym_simple_parameter, 3, 0, 0),
   [492] = {.entry = {.count = 1, .reusable = true}}, SHIFT(112),
   [494] = {.entry = {.count = 1, .reusable = true}}, SHIFT(241),
