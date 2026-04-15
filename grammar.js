@@ -56,6 +56,7 @@ module.exports = grammar({
 
     precedences: $ => [
         [
+            'scope',
             'method',
             'postfix',
             'prefix',
@@ -185,7 +186,7 @@ module.exports = grammar({
             $.scoped_name,
         ),
 
-        scoped_name: $ => seq(
+        scoped_name: $ => prec('scope', seq(
             choice(
                 '/',
                 seq(
@@ -197,7 +198,7 @@ module.exports = grammar({
                 ),
             ),
             $.name
-        ),
+        )),
 
         scope_symbol: $ => choice('.', '~', '/'),
 
