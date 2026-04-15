@@ -52,6 +52,7 @@ module.exports = grammar({
     conflicts: $ => [
         [$._statement, $._member_item],
         [$._statement_item, $._member_item],
+        [$.function_item, $._scoped_name],
     ],
 
     precedences: $ => [
@@ -89,6 +90,8 @@ module.exports = grammar({
 
         _statement_item: $ => choice(
             $.function_item,
+            $.abstract_item,
+            $.impl_item,
         ),
 
         expression_statement: $ => $._expr,
@@ -104,17 +107,44 @@ module.exports = grammar({
         _member_item: $ => choice(
             alias($.variable_statement, $.field_item),
             $.function_item,
+            $.impl_item,
+        ),
+
+        abstract_item: $ => seq(
+            'decl',
+            $._abstractable_item,
+        ),
+
+        _abstractable_item: $ => choice(
+            $.function_item,
+        ),
+
+        impl_item: $ => seq(
+            'impl',
+            optional($.name),
+            $._abstractable_item,
         ),
 
         function_item: $ => seq(
             'fn',
             optional(field('name', $.name)),
+            optional(field('receiver', $.receiver)),
             field('parameters', choice(
                 $.simple_parameter,
                 $.named_parameters,
             )),
             optional(seq('->', field('return_type', $._type))),
-            scope($, '{', $._statement_paragraph, '}'),
+            optional(scope($, '{', $._statement_paragraph, '}')),
+        ),
+
+        receiver: $ => seq(
+            optional(field('type', $._type)),
+            choice(
+                '.',
+                '|>',
+                '<>',
+                '<|',
+            ),
         ),
 
         simple_parameter: $ => seq('(', optional($._type), ')'),
@@ -124,6 +154,7 @@ module.exports = grammar({
 
         _expr: $ => choice(
             $.integer,
+            $.self_value,
             $.it_value,
             $._scoped_name,
             $.variable_binding,
@@ -177,10 +208,19 @@ module.exports = grammar({
         variable_binding: $ => prec.left(seq(field('name', $.name), ':', optional(field('type', $._type)))),
 
         _type: $ => choice(
+            $.in_type,
+            $.out_type,
             $._scoped_name,
         ),
 
-        it_value: $ => 'it',
+        in_type: $ => seq('In', optional($.name)),
+        out_type: $ => seq('Out', optional($.name)),
+
+        self_value: $ => $._self,
+        it_value: $ => $._it,
+
+        _self: $ => 'self',
+        _it: $ => 'it',
 
         _scoped_name: $ => choice(
             $.name,
