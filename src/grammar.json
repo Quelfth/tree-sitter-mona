@@ -410,6 +410,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "function"
+        },
+        {
+          "type": "SYMBOL",
           "name": "object"
         }
       ]

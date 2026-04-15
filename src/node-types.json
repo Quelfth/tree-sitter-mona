@@ -71,6 +71,10 @@
         "required": true,
         "types": [
           {
+            "type": "function",
+            "named": true
+          },
+          {
             "type": "object",
             "named": true
           },
@@ -456,6 +460,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": "function",
+            "named": true
+          },
           {
             "type": "object",
             "named": true

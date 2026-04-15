@@ -139,6 +139,7 @@ module.exports = grammar({
 
         _argument_expr: $ => choice(
             $.parenthetical,
+            $.function,
             $.object,
         ),
 
