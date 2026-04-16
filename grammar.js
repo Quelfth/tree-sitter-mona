@@ -244,7 +244,11 @@ module.exports = grammar({
 
         scope_symbol: $ => choice('.', '~', '/'),
 
-        name: $ => $.identifier,
+        name: $ => choice(
+            $.identifier,
+            seq('`', alias(token.immediate(/[^`]+/), $.identifier), token.immediate('`')),
+        ),
+
         identifier: $ => identifier,
 
         integer: $ => choice(
