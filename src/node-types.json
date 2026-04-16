@@ -75,6 +75,10 @@
           "named": true
         },
         {
+          "type": "string",
+          "named": true
+        },
+        {
           "type": "variable_binding",
           "named": true
         }
@@ -160,6 +164,10 @@
             "named": true
           },
           {
+            "type": "string",
+            "named": true
+          },
+          {
             "type": "variable_binding",
             "named": true
           }
@@ -225,6 +233,10 @@
         },
         {
           "type": "self_value",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -309,6 +321,10 @@
             "named": true
           },
           {
+            "type": "string",
+            "named": true
+          },
+          {
             "type": "variable_binding",
             "named": true
           }
@@ -374,6 +390,10 @@
         },
         {
           "type": "self_value",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
@@ -653,6 +673,10 @@
             "named": true
           },
           {
+            "type": "string",
+            "named": true
+          },
+          {
             "type": "variable_binding",
             "named": true
           }
@@ -858,6 +882,10 @@
           "named": true
         },
         {
+          "type": "string",
+          "named": true
+        },
+        {
           "type": "variable_binding",
           "named": true
         }
@@ -985,6 +1013,60 @@
     }
   },
   {
+    "type": "string",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "literal_suffix",
+          "named": true
+        },
+        {
+          "type": "string_content",
+          "named": true
+        },
+        {
+          "type": "string_interpolation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "string_interpolation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "abstract_item",
+          "named": true
+        },
+        {
+          "type": "expression_statement",
+          "named": true
+        },
+        {
+          "type": "function_item",
+          "named": true
+        },
+        {
+          "type": "impl_item",
+          "named": true
+        },
+        {
+          "type": "variable_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "variable_binding",
     "named": true,
     "fields": {
@@ -1083,6 +1165,10 @@
           "named": true
         },
         {
+          "type": "string",
+          "named": true
+        },
+        {
           "type": "variable_binding",
           "named": true
         }
@@ -1095,6 +1181,10 @@
   },
   {
     "type": "!=",
+    "named": false
+  },
+  {
+    "type": "\"",
     "named": false
   },
   {
@@ -1232,6 +1322,10 @@
   {
     "type": "self",
     "named": false
+  },
+  {
+    "type": "string_content",
+    "named": true
   },
   {
     "type": "{",

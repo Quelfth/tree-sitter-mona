@@ -154,6 +154,7 @@ module.exports = grammar({
 
         _expr: $ => choice(
             $.integer,
+            $.string,
             $.self_value,
             $.it_value,
             $._scoped_name,
@@ -256,6 +257,20 @@ module.exports = grammar({
             seq(opt_imm('-', '0o'), immediate($.digits, /[0-7_]+/), lit_suffix($)),
             seq(opt_imm('-', '0z'), immediate($.digits, /[0-9a-zA-Z+/_]+/), lit_suffix($)),
         ),
+
+        string: $ => seq(
+            '"',
+            repeat(choice(
+                $.string_content,
+                $.string_interpolation,
+            )),
+            '"',
+            lit_suffix($),
+        ),
+
+        string_content: $ => /[^{"]+/,
+
+        string_interpolation: $ => scope($, '{', $._statement_paragraph, '}'),
     }
 });
 
