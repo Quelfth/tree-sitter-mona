@@ -246,7 +246,7 @@ module.exports = grammar({
 
         name: $ => choice(
             $.identifier,
-            seq('`', alias(token.immediate(/[^`]+/), $.identifier), token.immediate('`')),
+            seq('`', optional(alias(token.immediate(/([^`]|``)+/), $.identifier)), token.immediate('`')),
         ),
 
         identifier: $ => identifier,

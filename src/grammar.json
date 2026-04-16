@@ -1172,16 +1172,24 @@
               "value": "`"
             },
             {
-              "type": "ALIAS",
-              "content": {
-                "type": "IMMEDIATE_TOKEN",
-                "content": {
-                  "type": "PATTERN",
-                  "value": "[^`]+"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "ALIAS",
+                  "content": {
+                    "type": "IMMEDIATE_TOKEN",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "([^`]|``)+"
+                    }
+                  },
+                  "named": true,
+                  "value": "identifier"
+                },
+                {
+                  "type": "BLANK"
                 }
-              },
-              "named": true,
-              "value": "identifier"
+              ]
             },
             {
               "type": "IMMEDIATE_TOKEN",
