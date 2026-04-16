@@ -267,14 +267,17 @@ module.exports = grammar({
             repeat(choice(
                 $.string_content,
                 $.string_interpolation,
+                $.string_escape,
             )),
             '"',
             lit_suffix($),
         ),
 
-        string_content: $ => /[^{"]+/,
+        string_content: $ => /[^{"\\]+/,
 
         string_interpolation: $ => scope($, '{', $._statement_paragraph, '}'),
+
+        string_escape: $ => seq('\\', alias(/./, $.identifier)),
     }
 });
 
