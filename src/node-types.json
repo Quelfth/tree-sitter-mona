@@ -31,6 +31,10 @@
           "named": true
         },
         {
+          "type": "field_capture_expression",
+          "named": true
+        },
+        {
           "type": "field_expression",
           "named": true
         },
@@ -120,6 +124,10 @@
             "named": true
           },
           {
+            "type": "field_capture_expression",
+            "named": true
+          },
+          {
             "type": "field_expression",
             "named": true
           },
@@ -192,6 +200,10 @@
           "named": true
         },
         {
+          "type": "field_capture_expression",
+          "named": true
+        },
+        {
           "type": "field_expression",
           "named": true
         },
@@ -247,6 +259,114 @@
     }
   },
   {
+    "type": "field_capture_expression",
+    "named": true,
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "field_capture_expression",
+            "named": true
+          },
+          {
+            "type": "field_expression",
+            "named": true
+          },
+          {
+            "type": "function",
+            "named": true
+          },
+          {
+            "type": "integer",
+            "named": true
+          },
+          {
+            "type": "it_value",
+            "named": true
+          },
+          {
+            "type": "method_call_expression",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthetical",
+            "named": true
+          },
+          {
+            "type": "pre_unary_expression",
+            "named": true
+          },
+          {
+            "type": "scoped_name",
+            "named": true
+          },
+          {
+            "type": "self_value",
+            "named": true
+          },
+          {
+            "type": "string",
+            "named": true
+          },
+          {
+            "type": "variable_binding",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": false,
+      "required": false,
+      "types": [
+        {
+          "type": "in_type",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "scoped_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "field_expression",
     "named": true,
     "fields": {
@@ -274,6 +394,10 @@
           },
           {
             "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "field_capture_expression",
             "named": true
           },
           {
@@ -335,10 +459,21 @@
   {
     "type": "field_item",
     "named": true,
-    "fields": {},
+    "fields": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "binary_expression",
@@ -349,11 +484,19 @@
           "named": true
         },
         {
+          "type": "field_capture_expression",
+          "named": true
+        },
+        {
           "type": "field_expression",
           "named": true
         },
         {
           "type": "function",
+          "named": true
+        },
+        {
+          "type": "in_type",
           "named": true
         },
         {
@@ -374,6 +517,10 @@
         },
         {
           "type": "object",
+          "named": true
+        },
+        {
+          "type": "out_type",
           "named": true
         },
         {
@@ -629,6 +776,10 @@
             "named": true
           },
           {
+            "type": "field_capture_expression",
+            "named": true
+          },
+          {
             "type": "field_expression",
             "named": true
           },
@@ -771,6 +922,10 @@
         {
           "type": "impl_item",
           "named": true
+        },
+        {
+          "type": "rest_item",
+          "named": true
         }
       ]
     }
@@ -835,6 +990,10 @@
         },
         {
           "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "field_capture_expression",
           "named": true
         },
         {
@@ -919,6 +1078,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "rest_item",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "scope_symbol",
@@ -1140,6 +1304,10 @@
           "named": true
         },
         {
+          "type": "field_capture_expression",
+          "named": true
+        },
+        {
           "type": "field_expression",
           "named": true
         },
@@ -1240,6 +1408,10 @@
   },
   {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "..",
     "named": false
   },
   {
@@ -1353,6 +1525,10 @@
   {
     "type": "string_content",
     "named": true
+  },
+  {
+    "type": "type",
+    "named": false
   },
   {
     "type": "{",

@@ -32,6 +32,15 @@ function paragraph($, rule) {
     return seq($._paragraph_feed, rule, repeat(seq(';', rule)))
 }
 
+function mono_scope($, left, content, right) {
+    return seq(
+        left, $._scope_start,
+        $._paragraph_feed,
+        content,
+        right, $._scope_end,
+    )
+}
+
 const identifier = /\+?[\p{XID_Start}]([-\+]?[\p{XID_Continue}])*/;
 
 module.exports = grammar({
@@ -50,7 +59,7 @@ module.exports = grammar({
     ],
 
     conflicts: $ => [
-        [$._statement, $._member_item],
+        //[$._statement, $._member_item],
         [$._statement_item, $._member_item],
         [$.function_item, $._scoped_name],
     ],
@@ -70,6 +79,10 @@ module.exports = grammar({
         [
             'object',
             'function',
+        ],
+        [
+            'field_capture',
+            'parenthetical',
         ]
     ],
 
@@ -105,10 +118,26 @@ module.exports = grammar({
         _member_paragraph: $ => paragraph($, $._member_item),
 
         _member_item: $ => choice(
-            alias($.variable_statement, $.field_item),
+            $.field_item,
+            $.rest_item,
             $.function_item,
             $.impl_item,
         ),
+
+        field_item: $ => seq(
+            '.',
+            field('name', $.name),
+            optional(seq(
+                ':',
+                $._type,
+            )),
+            optional(seq(
+                '=',
+                $._expr,
+            )),
+        ),
+
+        rest_item: $ => alias('..', '..'),
 
         abstract_item: $ => seq(
             'decl',
@@ -159,6 +188,7 @@ module.exports = grammar({
             $.it_value,
             $._scoped_name,
             $.variable_binding,
+            $.field_capture_expression,
             $.parenthetical,
             $.function,
             $.object,
@@ -175,7 +205,7 @@ module.exports = grammar({
             $.object,
         ),
 
-        parenthetical: $ => scope($, '(', $._statement_paragraph, ')'),
+        parenthetical: $ => prec('parenthetical', scope($, '(', $._statement_paragraph, ')')),
         function: $ => prec('function', scope($, '{', $._statement_paragraph, '}')),
         object: $ => prec('object', scope($, '{', $._member_paragraph, '}')),
 
@@ -207,6 +237,16 @@ module.exports = grammar({
         )),
 
         variable_binding: $ => prec.left(seq(field('name', $.name), ':', optional(field('type', $._type)))),
+
+        field_capture_expression: $ => prec('field_capture', mono_scope($, '(', seq(
+            alias(/\.+/, '.'),
+            optional(seq(
+                field('name', $.name),
+                optional(seq('type', $._type)),
+                '=',
+            )),
+            optional(field('value', $._expr)),
+        ), ')')),
 
         _type: $ => choice(
             $.in_type,
@@ -242,7 +282,7 @@ module.exports = grammar({
             $.name
         )),
 
-        scope_symbol: $ => choice('.', '~', '/'),
+        scope_symbol: $ => choice(alias(/\.+/, '.'), '~', '/'),
 
         name: $ => choice(
             $.identifier,

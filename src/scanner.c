@@ -44,8 +44,8 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
 
 
     if (valid_symbols[SCOPE_START]) {
-        if (*array_back(stack) != ~0u) {
-            array_push(stack, ~0u);
+        if (*array_back(stack) != ~1u) {
+            array_push(stack, ~1u);
         }
         lexer->result_symbol = SCOPE_START;
         return true;
@@ -59,6 +59,7 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
 
     if (valid_symbols[PARAGRAPH_FEED] || valid_symbols[PARAGRAPH_CONTINUE]) {
         bool found_newline = false;
+        unsigned initial_column = lexer->get_column(lexer);
         while (
             lexer->lookahead == ' '
                 || lexer->lookahead == '\r'
@@ -69,17 +70,23 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
             }
             lexer->advance(lexer, true);
         }
-        if (!valid_symbols[PARAGRAPH_FEED] && !found_newline) {
-            return false;
+        bool unendable = false;
+        if (!found_newline) {
+            if (!valid_symbols[PARAGRAPH_FEED]) {
+                return false;
+            }
+            if (initial_column != 0) {
+                unendable = true;
+            }
         }
-
         unsigned indent = lexer->get_column(lexer);
+
         if (stack->size == 0u) {
             array_push(stack, 0u);
         }
         unsigned* paragraph_indent = array_back(stack);
-        if (indent <= *paragraph_indent) {
-            *paragraph_indent = indent;
+        if (indent <= *paragraph_indent && *paragraph_indent != ~0u) {
+            *paragraph_indent = !unendable ? indent : ~0u;
             lexer->result_symbol = PARAGRAPH_FEED;
             return true;
         } else {
