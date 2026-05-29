@@ -28,8 +28,8 @@ function sep_list(rule, separator) {
     return optional(sep_list1(rule, separator))
 }
 
-function paragraph($, rule) {
-    return seq($._paragraph_feed, rule, repeat(seq(';', rule)))
+function paragraph($, rule, separator) {
+    return seq($._paragraph_feed, rule, repeat(seq(separator, rule)), optional(separator))
 }
 
 function mono_scope($, left, content, right) {
@@ -51,17 +51,17 @@ module.exports = grammar({
         $._paragraph_continue,
         $._scope_start,
         $._scope_end,
+        $._angle_bracket,
+        $._leading_qmark,
     ],
 
     extras: $ => [
-        / /,
+        $._space,
         $._paragraph_continue,
     ],
 
     conflicts: $ => [
-        //[$._statement, $._member_item],
         [$._statement_item, $._member_item],
-        [$.function_item, $._scoped_name],
     ],
 
     precedences: $ => [
@@ -75,6 +75,7 @@ module.exports = grammar({
             'comparison',
             'equality',
             'logical',
+            'case',
         ],
         [
             'object',
@@ -83,7 +84,7 @@ module.exports = grammar({
         [
             'field_capture',
             'parenthetical',
-        ]
+        ],
     ],
 
     word: $ => $.identifier,
@@ -93,7 +94,9 @@ module.exports = grammar({
             $._statement_paragraph,
         ),
 
-        _statement_paragraph: $ => paragraph($, $._statement),
+        _space: $ => / /,
+
+        _statement_paragraph: $ => paragraph($, $._statement, ';'),
 
         _statement: $ => choice(
             $.variable_statement,
@@ -103,6 +106,7 @@ module.exports = grammar({
 
         _statement_item: $ => choice(
             $.function_item,
+            $.type_item,
             $.abstract_item,
             $.impl_item,
         ),
@@ -115,13 +119,16 @@ module.exports = grammar({
             $._expr,
         ),
 
-        _member_paragraph: $ => paragraph($, $._member_item),
+        _member_paragraph: $ => paragraph($, $._member_item, ','),
 
         _member_item: $ => choice(
             $.field_item,
+            $.variant_item,
             $.rest_item,
             $.function_item,
             $.impl_item,
+            $.impl_list_item,
+            $.case,
         ),
 
         field_item: $ => seq(
@@ -137,7 +144,23 @@ module.exports = grammar({
             )),
         ),
 
+        variant_item: $ => seq(
+            '|',
+            field('name', $.name),
+            optional(mono_scope($, '(', choice(seq(':', $._type), $._expr), ')')),
+            optional(seq(
+                '=>',
+                field('consequence', $._expr),
+            ))
+        ),
+
         rest_item: $ => alias('..', '..'),
+
+        impl_list_item: $ => seq('impl', scope($, '{', $._impl_list_paragraph, '}')),
+
+        _impl_list_paragraph: $ => paragraph($, $.impl, ','),
+
+        impl: $ => $._scoped_name,
 
         abstract_item: $ => seq(
             'decl',
@@ -150,21 +173,26 @@ module.exports = grammar({
 
         impl_item: $ => seq(
             'impl',
-            optional($.name),
+            optional(field('name', $.name)),
+            repeat(field('generics', $.generics)),
             $._abstractable_item,
         ),
 
-        function_item: $ => seq(
+        function_item: $ => prec(1, seq(
             'fn',
-            optional(field('name', $.name)),
-            optional(field('receiver', $.receiver)),
+            optional(choice(
+                repeat1(field('generics', $.generics)),
+                seq(field('name', $.name), repeat(field('generics', $.generics))),
+                seq(repeat(field('generics', $.generics)), field('receiver', $.receiver)),
+                seq(field('name', $.name), repeat(field('generics', $.generics)), $._space, field('receiver', $.receiver))
+            )),
             field('parameters', choice(
                 $.simple_parameter,
                 $.named_parameters,
             )),
             optional(seq('->', field('return_type', $._type))),
             optional(scope($, '{', $._statement_paragraph, '}')),
-        ),
+        )),
 
         receiver: $ => seq(
             optional(field('type', $._type)),
@@ -180,6 +208,22 @@ module.exports = grammar({
         named_parameters: $ => seq('{', sep_list($.named_parameter, ','), '}'),
 
         named_parameter: $ => seq(field('name', $.name), ':', field('type', $._type)),
+
+        type_item: $ => seq(
+            'type',
+            field('name', $.name),
+            repeat(field('generics', $.generics)),
+            optional(choice(
+                $.object,
+                seq('=', $._type),
+            )),
+        ),
+
+        generics: $ => scope($, token.immediate('<'), $._generics_paragraph, '>'),
+
+        _generics_paragraph: $ => paragraph($, $._generic, ','),
+
+        _generic: $ => $._type,
 
         _expr: $ => choice(
             $.integer,
@@ -201,8 +245,8 @@ module.exports = grammar({
 
         _argument_expr: $ => choice(
             $.parenthetical,
-            $.function,
             $.object,
+            $.function,
         ),
 
         parenthetical: $ => prec('parenthetical', scope($, '(', $._statement_paragraph, ')')),
@@ -220,7 +264,7 @@ module.exports = grammar({
             prec.left('additive', seq($._expr, choice('+', '-'), $._expr)),
             prec.left('multiplicative', seq($._expr, choice('*', '/'), $._expr)),
             prec.left('comparison', seq($._expr, choice('<', '>', '<=', '>='), $._expr)),
-            prec.left('equality', seq($._expr, choice('!=', '=='), $._expr)),
+            prec.left('equality', seq($._expr, choice('!=', '==', '!==', '==='), $._expr)),
             prec.left('logical', seq($._expr, choice('&', '|'), $._expr)),
         ),
 
@@ -236,6 +280,12 @@ module.exports = grammar({
             field('argument', $._argument_expr),
         )),
 
+        case: $ => prec.left('case', seq(
+            field('pattern', $._expr),
+            '=>',
+            optional(field('consequence', $._expr)),
+        )),
+
         variable_binding: $ => prec.left(seq(field('name', $.name), ':', optional(field('type', $._type)))),
 
         field_capture_expression: $ => prec('field_capture', mono_scope($, '(', seq(
@@ -249,13 +299,26 @@ module.exports = grammar({
         ), ')')),
 
         _type: $ => choice(
+            $.boolean_type,
+            $.self_type,
             $.in_type,
             $.out_type,
+            $.it_type,
+            $.object,
             $._scoped_name,
         ),
 
+        boolean_type: $ => prec.right(choice(
+            seq(field('true', $._type), alias(' ? ', '?'), field('false', $._type)),
+            seq(field('true', $._type), '?'),
+            seq(alias($._leading_qmark, '?'), field('false', $._type)),
+            '?',
+        )),
+
+        self_type: $ => alias('Self', 'Self'),
         in_type: $ => seq('In', optional($.name)),
         out_type: $ => seq('Out', optional($.name)),
+        it_type: $ => seq('It', optional($.name)),
 
         self_value: $ => $._self,
         it_value: $ => $._it,

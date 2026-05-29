@@ -7,6 +7,8 @@ enum TokenType {
     PARAGRAPH_CONTINUE,
     SCOPE_START,
     SCOPE_END,
+    ANGLE_BRACKET,
+    LEADING_QMARK,
 };
 
 void* tree_sitter_mona_external_scanner_create() {
@@ -39,6 +41,12 @@ void tree_sitter_mona_external_scanner_deserialize(void* payload, char const* bu
     stack->size = count;
 }
 
+static inline bool is_unjoinable_char(int c) {
+    return c == ' ' || c == '\r' || c == '\n'
+        || c == ')' || c == ']' || c == '}'
+        || c == ',' || c == ';';
+}
+
 bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool const* valid_symbols) {
     Array(unsigned)* stack = payload;
 
@@ -57,9 +65,32 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
         return true;
     }
 
+    if (valid_symbols[ANGLE_BRACKET] && lexer->lookahead == '<') {
+        lexer->advance(lexer, false);
+        lexer->result_symbol = ANGLE_BRACKET;
+        return true;
+    }
+
+    if (!valid_symbols[LEADING_QMARK] && !valid_symbols[PARAGRAPH_FEED] && !valid_symbols[PARAGRAPH_CONTINUE]) {
+        return false;
+    }
+
+    unsigned initial_column = lexer->get_column(lexer);
+    while (lexer->lookahead == ' ') {
+        lexer->advance(lexer, true);
+    }
+
+    if (valid_symbols[LEADING_QMARK] && lexer->lookahead == '?') {
+        lexer->advance(lexer, false);
+        if (is_unjoinable_char(lexer->lookahead)) {
+            return false;
+        }
+        lexer->result_symbol = LEADING_QMARK;
+        return true;
+    }
+
     if (valid_symbols[PARAGRAPH_FEED] || valid_symbols[PARAGRAPH_CONTINUE]) {
         bool found_newline = false;
-        unsigned initial_column = lexer->get_column(lexer);
         while (
             lexer->lookahead == ' '
                 || lexer->lookahead == '\r'
