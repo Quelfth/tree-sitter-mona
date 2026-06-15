@@ -792,7 +792,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "{"
+          "value": "["
         },
         {
           "type": "CHOICE",
@@ -841,7 +841,7 @@
         },
         {
           "type": "STRING",
-          "value": "}"
+          "value": "]"
         }
       ]
     },
@@ -1194,7 +1194,7 @@
         "members": [
           {
             "type": "STRING",
-            "value": "{"
+            "value": "["
           },
           {
             "type": "SYMBOL",
@@ -1221,7 +1221,7 @@
           },
           {
             "type": "STRING",
-            "value": "}"
+            "value": "]"
           },
           {
             "type": "SYMBOL",
@@ -1929,38 +1929,8 @@
         "type": "SEQ",
         "members": [
           {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "/"
-              },
-              {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "CHOICE",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "scope_symbol"
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_scoped_name"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "IMMEDIATE_TOKEN",
-                    "content": {
-                      "type": "STRING",
-                      "value": "/"
-                    }
-                  }
-                ]
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "_scope_name"
           },
           {
             "type": "SYMBOL",
@@ -1968,6 +1938,47 @@
           }
         ]
       }
+    },
+    "_scope_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "/"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "scope_symbol"
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "/"
+              }
+            }
+          ]
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "name"
+            },
+            {
+              "type": "IMMEDIATE_TOKEN",
+              "content": {
+                "type": "STRING",
+                "value": "/"
+              }
+            }
+          ]
+        }
+      ]
     },
     "scope_symbol": {
       "type": "CHOICE",
@@ -2533,12 +2544,7 @@
       "name": "_paragraph_continue"
     }
   ],
-  "conflicts": [
-    [
-      "_statement_item",
-      "_member_item"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [
     [
       {

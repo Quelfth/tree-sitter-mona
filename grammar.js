@@ -60,9 +60,7 @@ module.exports = grammar({
         $._paragraph_continue,
     ],
 
-    conflicts: $ => [
-        [$._statement_item, $._member_item],
-    ],
+    conflicts: $ => [],
 
     precedences: $ => [
         [
@@ -205,7 +203,7 @@ module.exports = grammar({
         ),
 
         simple_parameter: $ => seq('(', optional($._type), ')'),
-        named_parameters: $ => seq('{', sep_list($.named_parameter, ','), '}'),
+        named_parameters: $ => seq('[', sep_list($.named_parameter, ','), ']'),
 
         named_parameter: $ => seq(field('name', $.name), ':', field('type', $._type)),
 
@@ -251,7 +249,7 @@ module.exports = grammar({
 
         parenthetical: $ => prec('parenthetical', scope($, '(', $._statement_paragraph, ')')),
         function: $ => prec('function', scope($, '{', $._statement_paragraph, '}')),
-        object: $ => prec('object', scope($, '{', $._member_paragraph, '}')),
+        object: $ => prec('object', scope($, '[', $._member_paragraph, ']')),
 
         field_expression: $ => prec.left('postfix', seq(field('value', $._expr), '.', field('field', $._scoped_name))),
 
@@ -332,18 +330,15 @@ module.exports = grammar({
         ),
 
         scoped_name: $ => prec('scope', seq(
-            choice(
-                '/',
-                seq(
-                    choice(
-                        $.scope_symbol,
-                        $._scoped_name,
-                    ),
-                    token.immediate('/'),
-                ),
-            ),
-            $.name
+            $._scope_name,
+            $.name,
         )),
+
+        _scope_name: $ => choice(
+            '/',
+            seq($.scope_symbol, token.immediate('/')),
+            seq($.name, token.immediate('/')),
+        ),
 
         scope_symbol: $ => choice(alias(/\.+/, '.'), '~', '/'),
 

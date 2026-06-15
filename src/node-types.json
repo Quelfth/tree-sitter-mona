@@ -1551,10 +1551,6 @@
         {
           "type": "scope_symbol",
           "named": true
-        },
-        {
-          "type": "scoped_name",
-          "named": true
         }
       ]
     }
@@ -2239,7 +2235,15 @@
     "named": false
   },
   {
+    "type": "[",
+    "named": false
+  },
+  {
     "type": "\\",
+    "named": false
+  },
+  {
+    "type": "]",
     "named": false
   },
   {
