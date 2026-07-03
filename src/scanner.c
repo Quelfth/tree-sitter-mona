@@ -9,6 +9,7 @@ enum TokenType {
     SCOPE_END,
     ANGLE_BRACKET,
     LEADING_QMARK,
+    DIVIDE,
 };
 
 void* tree_sitter_mona_external_scanner_create() {
@@ -75,8 +76,11 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
         return false;
     }
 
+    bool found_ws = false;
+
     unsigned initial_column = lexer->get_column(lexer);
     while (lexer->lookahead == ' ') {
+        found_ws = true;
         lexer->advance(lexer, true);
     }
 
@@ -89,27 +93,28 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
         return true;
     }
 
-    if (valid_symbols[PARAGRAPH_FEED] || valid_symbols[PARAGRAPH_CONTINUE]) {
+    if (
+        valid_symbols[PARAGRAPH_FEED]
+        || (
+            (valid_symbols[PARAGRAPH_CONTINUE] || valid_symbols[DIVIDE])
+            && (found_ws || lexer->lookahead == ' ' || lexer->lookahead == '\r' || lexer->lookahead == '\n')
+        )
+    )
+    {
         bool found_newline = false;
         while (
             lexer->lookahead == ' '
                 || lexer->lookahead == '\r'
                 || lexer->lookahead == '\n'
         ) {
+            found_ws = true;
             if (lexer->lookahead == '\n') {
                 found_newline = true;
             }
             lexer->advance(lexer, true);
         }
-        bool unendable = false;
-        if (!found_newline) {
-            if (!valid_symbols[PARAGRAPH_FEED]) {
-                return false;
-            }
-            if (initial_column != 0) {
-                unendable = true;
-            }
-        }
+        const bool unendable = !found_newline && valid_symbols[PARAGRAPH_FEED] && initial_column != 0;
+
         unsigned indent = lexer->get_column(lexer);
 
         if (stack->size == 0u) {
@@ -121,8 +126,13 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
             lexer->result_symbol = PARAGRAPH_FEED;
             return true;
         } else {
-            if (!found_newline) {
+            if (!found_ws) {
                 return false;
+            }
+            if (lexer->lookahead == '/') {
+                lexer->advance(lexer, false);
+                lexer->result_symbol = DIVIDE;
+                return true;
             }
             lexer->result_symbol = PARAGRAPH_CONTINUE;
             return true;
