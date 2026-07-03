@@ -64,7 +64,6 @@ module.exports = grammar({
         [$._type, $._referent],
         [$._type, $._referent, $.field_referent],
         [$._referent, $.field_referent],
-        [$._type, $._referent, $.self_field_referent],
         [$._type, $.object_referent],
         [$._type, $.method_referent],
         [$._type, $.self_method_referent],
@@ -320,22 +319,27 @@ module.exports = grammar({
         _referent: $ => prec('referent', choice(
             $._symbol,
             $.field_referent,
-            $.self_field_referent,
+            //$.self_field_referent,
             $.method_referent,
             $.self_method_referent,
             $.object_referent,
         )),
 
-        field_referent: $ => prec.left(seq(
-            field('value', $._referent),
-            '.',
-            field('field', $._symbol),
-        )),
+        field_referent: $ => choice(
+            prec.left(seq(
+                field('value', $._referent),
+                '.',
+                field('field', $._symbol),
+            )),
+            prec('self-referent', seq(
+                '.',
+                field('field', $._symbol),
+            )),
+        ),
 
-        self_field_referent: $ => prec('self-referent', seq(
-            '.',
-            field('field', $._symbol),
-        )),
+        
+
+        //self_field_referent: $ => ,
 
         method_referent: $ => seq(
             field('value', $._referent),

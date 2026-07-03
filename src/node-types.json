@@ -712,7 +712,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "field_referent",
@@ -736,10 +736,6 @@
           },
           {
             "type": "parenthesized_symbol",
-            "named": true
-          },
-          {
-            "type": "self_field_referent",
             "named": true
           },
           {
@@ -1293,10 +1289,6 @@
             "named": true
           },
           {
-            "type": "self_field_referent",
-            "named": true
-          },
-          {
             "type": "self_method_referent",
             "named": true
           },
@@ -1429,10 +1421,6 @@
           },
           {
             "type": "parenthesized_symbol",
-            "named": true
-          },
-          {
-            "type": "self_field_referent",
             "named": true
           },
           {
@@ -1696,10 +1684,6 @@
             "named": true
           },
           {
-            "type": "self_field_referent",
-            "named": true
-          },
-          {
             "type": "self_method_referent",
             "named": true
           },
@@ -1770,34 +1754,6 @@
     "type": "scope_symbol",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "self_field_referent",
-    "named": true,
-    "fields": {
-      "field": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "named_entry",
-            "named": true
-          },
-          {
-            "type": "parenthesized_symbol",
-            "named": true
-          },
-          {
-            "type": "symbolic_entry",
-            "named": true
-          }
-        ]
-      }
-    }
   },
   {
     "type": "self_method_referent",
