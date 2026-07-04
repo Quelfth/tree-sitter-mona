@@ -79,6 +79,10 @@
           "named": true
         },
         {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -142,6 +146,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "symbolic_entry",
             "named": true
           }
@@ -189,6 +197,10 @@
           },
           {
             "type": "self_type",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -282,6 +294,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -362,6 +378,10 @@
           "named": true
         },
         {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -435,6 +455,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "symbolic_entry",
             "named": true
           }
@@ -460,6 +484,10 @@
           },
           {
             "type": "parenthesized_symbol",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -526,6 +554,10 @@
           },
           {
             "type": "self_value",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -603,6 +635,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "symbolic_entry",
             "named": true
           }
@@ -669,6 +705,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -702,6 +742,10 @@
           },
           {
             "type": "parenthesized_symbol",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -739,7 +783,7 @@
             "named": true
           },
           {
-            "type": "self_method_referent",
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -882,6 +926,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "symbolic_entry",
             "named": true
           }
@@ -976,6 +1024,10 @@
           "named": true
         },
         {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
           "type": "symbolic_entry",
           "named": true
         }
@@ -1000,6 +1052,10 @@
         },
         {
           "type": "parenthesized_symbol",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
           "named": true
         },
         {
@@ -1153,6 +1209,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "symbolic_entry",
             "named": true
           }
@@ -1219,6 +1279,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "string",
             "named": true
           },
@@ -1255,6 +1319,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "symbolic_entry",
             "named": true
           }
@@ -1262,7 +1330,7 @@
       },
       "value": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "field_referent",
@@ -1289,7 +1357,7 @@
             "named": true
           },
           {
-            "type": "self_method_referent",
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -1337,6 +1405,10 @@
         },
         {
           "type": "scope_symbol",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
           "named": true
         },
         {
@@ -1424,7 +1496,7 @@
             "named": true
           },
           {
-            "type": "self_method_referent",
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -1455,9 +1527,21 @@
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": false,
       "types": [
+        {
+          "type": "boolean_type",
+          "named": true
+        },
+        {
+          "type": "in_type",
+          "named": true
+        },
+        {
+          "type": "it_type",
+          "named": true
+        },
         {
           "type": "name",
           "named": true
@@ -1467,7 +1551,27 @@
           "named": true
         },
         {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
           "type": "parenthesized_symbol",
+          "named": true
+        },
+        {
+          "type": "reference_type",
+          "named": true
+        },
+        {
+          "type": "self_type",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
           "named": true
         },
         {
@@ -1581,6 +1685,10 @@
           "named": true
         },
         {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
           "type": "string",
           "named": true
         },
@@ -1644,6 +1752,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "symbolic_entry",
             "named": true
           }
@@ -1684,7 +1796,7 @@
             "named": true
           },
           {
-            "type": "self_method_referent",
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -1738,6 +1850,10 @@
             "named": true
           },
           {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
             "type": "symbolic_entry",
             "named": true
           }
@@ -1754,34 +1870,6 @@
     "type": "scope_symbol",
     "named": true,
     "fields": {}
-  },
-  {
-    "type": "self_method_referent",
-    "named": true,
-    "fields": {
-      "method": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "name",
-            "named": true
-          },
-          {
-            "type": "named_entry",
-            "named": true
-          },
-          {
-            "type": "parenthesized_symbol",
-            "named": true
-          },
-          {
-            "type": "symbolic_entry",
-            "named": true
-          }
-        ]
-      }
-    }
   },
   {
     "type": "self_type",
@@ -1842,6 +1930,10 @@
           "named": true
         },
         {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
           "type": "symbolic_entry",
           "named": true
         }
@@ -1883,6 +1975,100 @@
         },
         {
           "type": "variable_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "specific_symbol",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "named_entry",
+          "named": true
+        },
+        {
+          "type": "parenthesized_symbol",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
+          "type": "specifics",
+          "named": true
+        },
+        {
+          "type": "symbolic_entry",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "specifics",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "boolean_type",
+          "named": true
+        },
+        {
+          "type": "in_type",
+          "named": true
+        },
+        {
+          "type": "it_type",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "named_entry",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "out_type",
+          "named": true
+        },
+        {
+          "type": "parenthesized_symbol",
+          "named": true
+        },
+        {
+          "type": "reference_type",
+          "named": true
+        },
+        {
+          "type": "self_type",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
+          "type": "symbolic_entry",
           "named": true
         }
       ]
@@ -1990,6 +2176,10 @@
           "named": true
         },
         {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
           "type": "symbolic_entry",
           "named": true
         }
@@ -2066,6 +2256,10 @@
           "named": true
         },
         {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
           "type": "symbolic_entry",
           "named": true
         }
@@ -2128,6 +2322,10 @@
           },
           {
             "type": "self_type",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -2200,6 +2398,10 @@
         },
         {
           "type": "self_value",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
           "named": true
         },
         {
@@ -2279,6 +2481,10 @@
           },
           {
             "type": "self_value",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
             "named": true
           },
           {
@@ -2388,6 +2594,10 @@
         },
         {
           "type": "self_value",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
           "named": true
         },
         {

@@ -54,6 +54,7 @@ module.exports = grammar({
         $._angle_bracket,
         $._leading_qmark,
         $._divide,
+        $._less_than,
     ],
 
     extras: $ => [
@@ -64,12 +65,11 @@ module.exports = grammar({
         [$._type, $._referent],
         [$._type, $._referent, $.field_referent],
         [$._referent, $.field_referent],
-        [$._type, $.object_referent],
+        [$._type_expr, $.object_referent],
         [$._type, $.method_referent],
-        [$._type, $.self_method_referent],
-        [$._type, $.parenthesized_symbol],
-        [$._expr, $.parenthesized_symbol],
-        [$.parenthetical, $.parenthesized_symbol],
+        [$._expr, $._type_expr],
+        [$._expr, $._type],
+        [$._expr, $._referent],
     ],
 
     precedences: $ => [
@@ -231,11 +231,9 @@ module.exports = grammar({
             field('body', $.object),
         ),
 
-        generics: $ => scope($, token.immediate('<'), $._generics_paragraph, '>'),
+        generics: $ => scope($, '<', paragraph($, $._type, ','), '>'),
 
-        _generics_paragraph: $ => paragraph($, $._generic, ','),
-
-        _generic: $ => $._type,
+        specifics: $ => scope($, '<', paragraph($, $._type, ','), '>'),
 
         _expr: $ => choice(
             $.integer,
@@ -274,7 +272,7 @@ module.exports = grammar({
         binary_expression: $ => choice(
             prec.left('additive', seq($._expr, choice('+', '-'), $._expr)),
             prec.left('multiplicative', seq($._expr, choice('*', alias($._divide, '/')), $._expr)),
-            prec.left('comparison', seq($._expr, choice('<', '>', '<=', '>='), $._expr)),
+            prec.left('comparison', seq($._expr, choice(alias($._less_than, '<'), '>', '<=', '>='), $._expr)),
             prec.left('equality', seq($._expr, choice('!=', '==', '!==', '==='), $._expr)),
             prec.left('logical', seq($._expr, choice('&', '|'), $._expr)),
         ),
@@ -300,13 +298,17 @@ module.exports = grammar({
         variable_binding: $ => prec.left(seq(field('name', $.name), ':', optional(field('type', $._type)))),
 
         _type: $ => choice(
+            $._symbol,
+            $._type_expr,
+        ),
+
+        _type_expr: $ => choice(
             $.boolean_type,
             $.self_type,
             $.in_type,
             $.out_type,
             $.it_type,
             $.object,
-            $._symbol,
             $.reference_type,
         ),
 
@@ -319,9 +321,7 @@ module.exports = grammar({
         _referent: $ => prec('referent', choice(
             $._symbol,
             $.field_referent,
-            //$.self_field_referent,
             $.method_referent,
-            $.self_method_referent,
             $.object_referent,
         )),
 
@@ -337,22 +337,19 @@ module.exports = grammar({
             )),
         ),
 
-        
-
-        //self_field_referent: $ => ,
-
-        method_referent: $ => seq(
-            field('value', $._referent),
-            '.',
-            field('method', $._symbol),
-            '(', ')',
+        method_referent: $ => choice(
+            seq(
+                field('value', $._referent),
+                '.',
+                field('method', $._symbol),
+                '(', ')',
+            ),
+            seq(
+                '.',
+                field('method', $._symbol),
+                '(', ')',
+            ),
         ),
-
-        self_method_referent: $ => (seq(
-            '.',
-            field('method', $._symbol),
-            '(', ')',
-        )),
 
         object_referent: $ => seq(
             field('value', $._referent),
@@ -383,9 +380,10 @@ module.exports = grammar({
             $.named_entry,
             $.symbolic_entry,
             $.parenthesized_symbol,
+            $.specific_symbol,
         ),
 
-        parenthesized_symbol: $ => scope($, '(', paragraph($, $._symbol, ','), ')'),
+        parenthesized_symbol: $ => mono_scope($, '(', $._type, ')'),
 
         named_entry: $ => prec('named-entry', seq(
             choice(
@@ -400,6 +398,11 @@ module.exports = grammar({
             optional($._symbol),
             '\\',
             $._symbol,
+        )),
+
+        specific_symbol: $ => prec.left(seq(
+            $._symbol,
+            $.specifics,
         )),
 
         scope_symbol: $ => choice(alias(/\.+/, '.'), '~', alias($._divide, '/'), '/'),

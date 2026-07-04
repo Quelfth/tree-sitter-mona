@@ -10,6 +10,7 @@ enum TokenType {
     ANGLE_BRACKET,
     LEADING_QMARK,
     DIVIDE,
+    LESS_THAN,
 };
 
 void* tree_sitter_mona_external_scanner_create() {
@@ -132,6 +133,10 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
             if (lexer->lookahead == '/') {
                 lexer->advance(lexer, false);
                 lexer->result_symbol = DIVIDE;
+                return true;
+            } else if (lexer->lookahead == '<') {
+                lexer->advance(lexer, false);
+                lexer->result_symbol = LESS_THAN;
                 return true;
             }
             lexer->result_symbol = PARAGRAPH_CONTINUE;
