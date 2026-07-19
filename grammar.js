@@ -438,7 +438,7 @@ module.exports = grammar({
 
         string_content: $ => /[^{"\\]+/,
 
-        string_interpolation: $ => scope($, '{', $._statement_paragraph, '}'),
+        string_interpolation: $ => scope($, "'", $._statement_paragraph, "'"),
 
         string_escape: $ => seq('\\', alias(/./, $.identifier)),
     }
