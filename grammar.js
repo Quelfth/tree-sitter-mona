@@ -436,7 +436,7 @@ module.exports = grammar({
             lit_suffix($),
         ),
 
-        string_content: $ => /[^{"\\]+/,
+        string_content: $ => /[^'"\\]+/,
 
         string_interpolation: $ => scope($, "'", $._statement_paragraph, "'"),
 

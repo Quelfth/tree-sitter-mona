@@ -2729,7 +2729,7 @@
     },
     "string_content": {
       "type": "PATTERN",
-      "value": "[^{\"\\\\]+"
+      "value": "[^'\"\\\\]+"
     },
     "string_interpolation": {
       "type": "SEQ",
