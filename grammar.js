@@ -54,6 +54,7 @@ module.exports = grammar({
         $._angle_bracket,
         $._leading_qmark,
         $._divide,
+        $._leading_slash,
         $._less_than,
     ],
 
@@ -70,6 +71,7 @@ module.exports = grammar({
         [$._expr, $._type_expr],
         [$._expr, $._type],
         [$._expr, $._referent],
+        [$.named_entry],
     ],
 
     precedences: $ => [
@@ -91,6 +93,7 @@ module.exports = grammar({
             'reference-type',
         ],
         [
+            'dot-scope',
             'self-referent',
             'referent',
         ]
@@ -136,7 +139,7 @@ module.exports = grammar({
             $.function_item,
             $.impl_item,
             $.impl_list_item,
-            //$.case,
+            $.match_item,
         ),
 
         field_item: $ => seq(
@@ -154,12 +157,10 @@ module.exports = grammar({
         variant_item: $ => seq(
             '|',
             field('name', $.name),
-            optional(mono_scope($, '(', choice(seq(':', $._type), $._expr), ')')),
-            optional(seq(
-                '=>',
-                field('consequence', $._expr),
-            ))
+            optional(field('type', $._type)),
         ),
+
+        match_item: $ => seq($._expr, '=>', $._expr),
 
         rest_item: $ => alias('..', '..'),
 
@@ -295,7 +296,7 @@ module.exports = grammar({
             optional(field('consequence', $._expr)),
         )),
 
-        variable_binding: $ => prec.left(seq(field('name', $.name), ':', optional(field('type', $._type)))),
+        variable_binding: $ => prec.right(seq(field('name', $.name), ':', optional(field('type', $._type)))),
 
         _type: $ => choice(
             $._symbol,
@@ -387,11 +388,14 @@ module.exports = grammar({
 
         named_entry: $ => prec('named-entry', seq(
             choice(
-                choice(alias($._divide, '/'), '/'),
-                seq($.scope_symbol, '/'),
-                seq($._symbol, '/'),
+                choice(alias($._leading_slash, '/'), '/'),
+                seq(
+                    field('scope', choice('.', alias(/\.\.+/, '.'), '~', alias($._leading_slash, '/'), '/')),
+                    '/',
+                ),
+                seq(field('scope', $._symbol), '/'),
             ),
-            $.name,
+            field('entry', $.name),
         )),
 
         symbolic_entry: $ => prec.left('symbolic-entry', seq(
@@ -404,8 +408,6 @@ module.exports = grammar({
             $._symbol,
             $.specifics,
         )),
-
-        scope_symbol: $ => choice(alias(/\.+/, '.'), '~', alias($._divide, '/'), '/'),
 
         name: $ => choice(
             $.identifier,

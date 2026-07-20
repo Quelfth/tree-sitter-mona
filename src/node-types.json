@@ -1171,6 +1171,89 @@
     "fields": {}
   },
   {
+    "type": "match_item",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "field_expression",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "named_entry",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthesized_symbol",
+          "named": true
+        },
+        {
+          "type": "parenthetical",
+          "named": true
+        },
+        {
+          "type": "pre_unary_expression",
+          "named": true
+        },
+        {
+          "type": "self_value",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbolic_entry",
+          "named": true
+        },
+        {
+          "type": "variable_binding",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "method_call_expression",
     "named": true,
     "fields": {
@@ -1386,36 +1469,55 @@
   {
     "type": "named_entry",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "named_entry",
-          "named": true
-        },
-        {
-          "type": "parenthesized_symbol",
-          "named": true
-        },
-        {
-          "type": "scope_symbol",
-          "named": true
-        },
-        {
-          "type": "specific_symbol",
-          "named": true
-        },
-        {
-          "type": "symbolic_entry",
-          "named": true
-        }
-      ]
+    "fields": {
+      "entry": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "scope": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": ".",
+            "named": false
+          },
+          {
+            "type": "/",
+            "named": false
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "named_entry",
+            "named": true
+          },
+          {
+            "type": "parenthesized_symbol",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
+            "type": "symbolic_entry",
+            "named": true
+          },
+          {
+            "type": "~",
+            "named": false
+          }
+        ]
+      }
     }
   },
   {
@@ -1440,6 +1542,10 @@
         },
         {
           "type": "impl_list_item",
+          "named": true
+        },
+        {
+          "type": "match_item",
           "named": true
         },
         {
@@ -1863,11 +1969,6 @@
   },
   {
     "type": "rest_item",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "scope_symbol",
     "named": true,
     "fields": {}
   },
@@ -2423,36 +2524,30 @@
     "type": "variant_item",
     "named": true,
     "fields": {
-      "consequence": {
+      "name": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "type": {
         "multiple": false,
         "required": false,
         "types": [
           {
-            "type": "binary_expression",
+            "type": "boolean_type",
             "named": true
           },
           {
-            "type": "call_expression",
+            "type": "in_type",
             "named": true
           },
           {
-            "type": "field_expression",
-            "named": true
-          },
-          {
-            "type": "function",
-            "named": true
-          },
-          {
-            "type": "integer",
-            "named": true
-          },
-          {
-            "type": "it_value",
-            "named": true
-          },
-          {
-            "type": "method_call_expression",
+            "type": "it_type",
             "named": true
           },
           {
@@ -2468,19 +2563,19 @@
             "named": true
           },
           {
+            "type": "out_type",
+            "named": true
+          },
+          {
             "type": "parenthesized_symbol",
             "named": true
           },
           {
-            "type": "parenthetical",
+            "type": "reference_type",
             "named": true
           },
           {
-            "type": "pre_unary_expression",
-            "named": true
-          },
-          {
-            "type": "self_value",
+            "type": "self_type",
             "named": true
           },
           {
@@ -2488,131 +2583,11 @@
             "named": true
           },
           {
-            "type": "string",
-            "named": true
-          },
-          {
             "type": "symbolic_entry",
-            "named": true
-          },
-          {
-            "type": "variable_binding",
-            "named": true
-          }
-        ]
-      },
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "name",
             "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "boolean_type",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "in_type",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "it_type",
-          "named": true
-        },
-        {
-          "type": "it_value",
-          "named": true
-        },
-        {
-          "type": "method_call_expression",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "named_entry",
-          "named": true
-        },
-        {
-          "type": "object",
-          "named": true
-        },
-        {
-          "type": "out_type",
-          "named": true
-        },
-        {
-          "type": "parenthesized_symbol",
-          "named": true
-        },
-        {
-          "type": "parenthetical",
-          "named": true
-        },
-        {
-          "type": "pre_unary_expression",
-          "named": true
-        },
-        {
-          "type": "reference_type",
-          "named": true
-        },
-        {
-          "type": "self_type",
-          "named": true
-        },
-        {
-          "type": "self_value",
-          "named": true
-        },
-        {
-          "type": "specific_symbol",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "symbolic_entry",
-          "named": true
-        },
-        {
-          "type": "variable_binding",
-          "named": true
-        }
-      ]
     }
   },
   {

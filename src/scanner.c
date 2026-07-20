@@ -4,12 +4,13 @@
 
 enum TokenType {
     PARAGRAPH_FEED,
-    PARAGRAPH_CONTINUE,
+    WHITESPACE,
     SCOPE_START,
     SCOPE_END,
     ANGLE_BRACKET,
     LEADING_QMARK,
     DIVIDE,
+    LEADING_SLASH,
     LESS_THAN,
 };
 
@@ -44,9 +45,13 @@ void tree_sitter_mona_external_scanner_deserialize(void* payload, char const* bu
 }
 
 static inline bool is_unjoinable_char(int c) {
-    return c == ' ' || c == '\r' || c == '\n'
+    return c == ' ' || c == '\t' || c == '\r' || c == '\n'
         || c == ')' || c == ']' || c == '}'
         || c == ',' || c == ';';
+}
+
+static inline bool is_whitespace(int c) {
+    return c == ' ' || c == '\t' || c == '\r' || c == '\n';
 }
 
 bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool const* valid_symbols) {
@@ -73,7 +78,7 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
         return true;
     }
 
-    if (!valid_symbols[LEADING_QMARK] && !valid_symbols[PARAGRAPH_FEED] && !valid_symbols[PARAGRAPH_CONTINUE]) {
+    if (!valid_symbols[LEADING_QMARK] && !valid_symbols[PARAGRAPH_FEED] && !valid_symbols[WHITESPACE]) {
         return false;
     }
 
@@ -97,22 +102,22 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
     if (
         valid_symbols[PARAGRAPH_FEED]
         || (
-            (valid_symbols[PARAGRAPH_CONTINUE] || valid_symbols[DIVIDE])
-            && (found_ws || lexer->lookahead == ' ' || lexer->lookahead == '\r' || lexer->lookahead == '\n')
+            (valid_symbols[WHITESPACE] || valid_symbols[DIVIDE] || valid_symbols[LEADING_SLASH])
+            && (found_ws || is_whitespace(lexer->lookahead))
         )
     )
     {
         bool found_newline = false;
-        while (
-            lexer->lookahead == ' '
-                || lexer->lookahead == '\r'
-                || lexer->lookahead == '\n'
-        ) {
+        while (is_whitespace(lexer->lookahead)) {
             found_ws = true;
             if (lexer->lookahead == '\n') {
                 found_newline = true;
             }
             lexer->advance(lexer, true);
+        }
+        if (lexer->eof(lexer)) {
+            lexer->result_symbol = WHITESPACE;
+            return true;
         }
         const bool unendable = !found_newline && valid_symbols[PARAGRAPH_FEED] && initial_column != 0;
 
@@ -132,6 +137,10 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
             }
             if (lexer->lookahead == '/') {
                 lexer->advance(lexer, false);
+                if (!is_whitespace(lexer->lookahead)) {
+                    lexer->result_symbol = LEADING_SLASH;
+                    return true;
+                }
                 lexer->result_symbol = DIVIDE;
                 return true;
             } else if (lexer->lookahead == '<') {
@@ -139,7 +148,7 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
                 lexer->result_symbol = LESS_THAN;
                 return true;
             }
-            lexer->result_symbol = PARAGRAPH_CONTINUE;
+            lexer->result_symbol = WHITESPACE;
             return true;
         }
     }
