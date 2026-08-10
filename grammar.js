@@ -52,7 +52,9 @@ module.exports = grammar({
         $._scope_start,
         $._scope_end,
         $._angle_bracket,
+        $._trailing_qmark,
         $._leading_qmark,
+        $._floating_qmark,
         $._divide,
         $._leading_slash,
         $._less_than,
@@ -194,11 +196,13 @@ module.exports = grammar({
                 seq(repeat(field('generics', $.generics)), field('receiver', $.receiver)),
                 seq(field('name', $.name), repeat(field('generics', $.generics)), $.whitespace, field('receiver', $.receiver))
             )),
+            optional($.whitespace),
             field('parameters', choice(
                 $.simple_parameter,
                 $.object,
+                $.function_block_type,
             )),
-            optional(seq('->', field('return_type', $._type))),
+            optional(seq('->', field('return_type', choice($._type, $.function_block_type)))),
             optional(scope($, '{', $._statement_paragraph, '}')),
         )),
 
@@ -214,7 +218,10 @@ module.exports = grammar({
 
         simple_parameter: $ => mono_scope($, '(', optional($._type), ')'),
 
-        named_parameter: $ => seq(field('name', $.name), ':', field('type', $._type)),
+        function_block_type: $ => mono_scope($, '{', seq(
+            field('parameter', choice($._type, $.function_block_type)),
+            optional(seq('->', field('return_type', choice($._type, $.function_block_type)))),
+        ), '}'),
 
         type_item: $ => seq(
             'type',
@@ -359,10 +366,10 @@ module.exports = grammar({
         ),
 
         boolean_type: $ => prec.right('boolean-type', choice(
-            seq(field('true', $._type), alias(' ? ', '?'), field('false', $._type)),
-            seq(field('true', $._type), '?'),
+            seq(field('true', $._type), alias($._floating_qmark, '?'), field('false', $._type)),
+            seq(field('true', $._type), alias($._trailing_qmark, '?')),
             seq(alias($._leading_qmark, '?'), field('false', $._type)),
-            '?',
+            alias($._floating_qmark, '?'),
         )),
 
         self_type: $ => alias('Self', 'Self'),

@@ -8,7 +8,9 @@ enum TokenType {
     SCOPE_START,
     SCOPE_END,
     ANGLE_BRACKET,
+    TRAILING_QMARK,
     LEADING_QMARK,
+    FLOATING_QMARK,
     DIVIDE,
     LEADING_SLASH,
     LESS_THAN,
@@ -78,6 +80,12 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
         return true;
     }
 
+    if (valid_symbols[TRAILING_QMARK] && lexer->lookahead == '?') {
+        lexer->advance(lexer, false);
+        lexer->result_symbol = TRAILING_QMARK;
+        return true;
+    }
+
     if (!valid_symbols[LEADING_QMARK] && !valid_symbols[PARAGRAPH_FEED] && !valid_symbols[WHITESPACE]) {
         return false;
     }
@@ -88,15 +96,6 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
     while (lexer->lookahead == ' ') {
         found_ws = true;
         lexer->advance(lexer, true);
-    }
-
-    if (valid_symbols[LEADING_QMARK] && lexer->lookahead == '?') {
-        lexer->advance(lexer, false);
-        if (is_unjoinable_char(lexer->lookahead)) {
-            return false;
-        }
-        lexer->result_symbol = LEADING_QMARK;
-        return true;
     }
 
     if (
@@ -146,6 +145,14 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
             } else if (lexer->lookahead == '<') {
                 lexer->advance(lexer, false);
                 lexer->result_symbol = LESS_THAN;
+                return true;
+            } else if (lexer->lookahead == '?') {
+                lexer->advance(lexer, false);
+                if (is_unjoinable_char(lexer->lookahead)) {
+                    lexer->result_symbol = FLOATING_QMARK;
+                    return true;
+                }
+                lexer->result_symbol = LEADING_QMARK;
                 return true;
             }
             lexer->result_symbol = WHITESPACE;

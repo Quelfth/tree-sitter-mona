@@ -834,6 +834,128 @@
     }
   },
   {
+    "type": "function_block_type",
+    "named": true,
+    "fields": {
+      "parameter": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean_type",
+            "named": true
+          },
+          {
+            "type": "function_block_type",
+            "named": true
+          },
+          {
+            "type": "in_type",
+            "named": true
+          },
+          {
+            "type": "it_type",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "named_entry",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "out_type",
+            "named": true
+          },
+          {
+            "type": "parenthesized_symbol",
+            "named": true
+          },
+          {
+            "type": "reference_type",
+            "named": true
+          },
+          {
+            "type": "self_type",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
+            "type": "symbolic_entry",
+            "named": true
+          }
+        ]
+      },
+      "return_type": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "boolean_type",
+            "named": true
+          },
+          {
+            "type": "function_block_type",
+            "named": true
+          },
+          {
+            "type": "in_type",
+            "named": true
+          },
+          {
+            "type": "it_type",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "named_entry",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "out_type",
+            "named": true
+          },
+          {
+            "type": "parenthesized_symbol",
+            "named": true
+          },
+          {
+            "type": "reference_type",
+            "named": true
+          },
+          {
+            "type": "self_type",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
+            "type": "symbolic_entry",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "function_item",
     "named": true,
     "fields": {
@@ -862,6 +984,10 @@
         "required": true,
         "types": [
           {
+            "type": "function_block_type",
+            "named": true
+          },
+          {
             "type": "object",
             "named": true
           },
@@ -887,6 +1013,10 @@
         "types": [
           {
             "type": "boolean_type",
+            "named": true
+          },
+          {
+            "type": "function_block_type",
             "named": true
           },
           {
