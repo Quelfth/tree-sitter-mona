@@ -51,6 +51,10 @@
           "named": true
         },
         {
+          "type": "method_chain_expression",
+          "named": true
+        },
+        {
           "type": "name",
           "named": true
         },
@@ -266,6 +270,10 @@
             "named": true
           },
           {
+            "type": "method_chain_expression",
+            "named": true
+          },
+          {
             "type": "name",
             "named": true
           },
@@ -347,6 +355,10 @@
         },
         {
           "type": "method_call_expression",
+          "named": true
+        },
+        {
+          "type": "method_chain_expression",
           "named": true
         },
         {
@@ -529,6 +541,10 @@
             "named": true
           },
           {
+            "type": "method_chain_expression",
+            "named": true
+          },
+          {
             "type": "name",
             "named": true
           },
@@ -674,6 +690,10 @@
           },
           {
             "type": "method_call_expression",
+            "named": true
+          },
+          {
+            "type": "method_chain_expression",
             "named": true
           },
           {
@@ -1337,6 +1357,10 @@
           "named": true
         },
         {
+          "type": "method_chain_expression",
+          "named": true
+        },
+        {
           "type": "name",
           "named": true
         },
@@ -1464,6 +1488,10 @@
             "named": true
           },
           {
+            "type": "method_chain_expression",
+            "named": true
+          },
+          {
             "type": "name",
             "named": true
           },
@@ -1505,6 +1533,58 @@
           },
           {
             "type": "variable_binding",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "method_chain_expression",
+    "named": true,
+    "fields": {
+      "argument": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "function",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "parenthetical",
+            "named": true
+          }
+        ]
+      },
+      "method": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "method_call_expression",
+            "named": true
+          },
+          {
+            "type": "method_chain_expression",
             "named": true
           }
         ]
@@ -1890,6 +1970,10 @@
         },
         {
           "type": "method_call_expression",
+          "named": true
+        },
+        {
+          "type": "method_chain_expression",
           "named": true
         },
         {
@@ -2601,6 +2685,10 @@
         },
         {
           "type": "method_call_expression",
+          "named": true
+        },
+        {
+          "type": "method_chain_expression",
           "named": true
         },
         {

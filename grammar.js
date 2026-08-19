@@ -256,6 +256,7 @@ module.exports = grammar({
             $.field_expression,
             $.call_expression,
             $.method_call_expression,
+            $.method_chain_expression,
             $.pre_unary_expression,
             $.binary_expression,
         ),
@@ -292,10 +293,20 @@ module.exports = grammar({
 
         method_call_expression: $ => prec.left('method', seq(
             field('value', $._expr),
-            '.',
+            choice('.', '|>', '<>', '<|'),
             field('method', $._symbol),
             field('argument', $._argument_expr),
         )),
+
+        method_chain_expression: $ => seq(
+            field('value', choice(
+                $.call_expression,
+                $.method_call_expression,
+                $.method_chain_expression,
+            )),
+            field('method', $.name),
+            field('argument', $._argument_expr),
+        ),
 
         case: $ => prec.left('case', seq(
             field('pattern', $._expr),
