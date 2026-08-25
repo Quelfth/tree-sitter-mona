@@ -2,7 +2,18 @@
   {
     "type": "abstract_item",
     "named": true,
-    "fields": {},
+    "fields": {
+      "generics": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "generics",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": false,
       "required": true,
@@ -64,10 +75,6 @@
         },
         {
           "type": "object",
-          "named": true
-        },
-        {
-          "type": "parenthesized_symbol",
           "named": true
         },
         {
@@ -138,7 +145,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -192,7 +199,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -286,10 +293,6 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
-            "named": true
-          },
-          {
             "type": "parenthetical",
             "named": true
           },
@@ -319,93 +322,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "expression_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "call_expression",
-          "named": true
-        },
-        {
-          "type": "field_expression",
-          "named": true
-        },
-        {
-          "type": "function",
-          "named": true
-        },
-        {
-          "type": "integer",
-          "named": true
-        },
-        {
-          "type": "it_value",
-          "named": true
-        },
-        {
-          "type": "method_call_expression",
-          "named": true
-        },
-        {
-          "type": "method_chain_expression",
-          "named": true
-        },
-        {
-          "type": "name",
-          "named": true
-        },
-        {
-          "type": "named_entry",
-          "named": true
-        },
-        {
-          "type": "object",
-          "named": true
-        },
-        {
-          "type": "parenthesized_symbol",
-          "named": true
-        },
-        {
-          "type": "parenthetical",
-          "named": true
-        },
-        {
-          "type": "pre_unary_expression",
-          "named": true
-        },
-        {
-          "type": "self_value",
-          "named": true
-        },
-        {
-          "type": "specific_symbol",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        },
-        {
-          "type": "symbolic_entry",
-          "named": true
-        },
-        {
-          "type": "variable_binding",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -455,7 +371,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -495,7 +411,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -554,10 +470,6 @@
           },
           {
             "type": "object",
-            "named": true
-          },
-          {
-            "type": "parenthesized_symbol",
             "named": true
           },
           {
@@ -639,7 +551,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -709,10 +621,6 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
-            "named": true
-          },
-          {
             "type": "parenthetical",
             "named": true
           },
@@ -761,7 +669,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -799,7 +707,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -827,11 +735,23 @@
           "named": true
         },
         {
-          "type": "expression_statement",
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
           "named": true
         },
         {
           "type": "extend_item",
+          "named": true
+        },
+        {
+          "type": "field_expression",
+          "named": true
+        },
+        {
+          "type": "function",
           "named": true
         },
         {
@@ -843,7 +763,63 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
+          "named": true
+        },
+        {
+          "type": "method_chain_expression",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "named_entry",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthetical",
+          "named": true
+        },
+        {
+          "type": "pre_unary_expression",
+          "named": true
+        },
+        {
+          "type": "self_value",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbolic_entry",
+          "named": true
+        },
+        {
           "type": "type_item",
+          "named": true
+        },
+        {
+          "type": "variable_binding",
           "named": true
         },
         {
@@ -894,7 +870,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -952,7 +928,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -995,6 +971,22 @@
         "types": [
           {
             "type": "name",
+            "named": true
+          },
+          {
+            "type": "named_entry",
+            "named": true
+          },
+          {
+            "type": "parenthetical",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
+            "type": "symbolic_entry",
             "named": true
           }
         ]
@@ -1064,7 +1056,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -1095,11 +1087,23 @@
           "named": true
         },
         {
-          "type": "expression_statement",
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
           "named": true
         },
         {
           "type": "extend_item",
+          "named": true
+        },
+        {
+          "type": "field_expression",
+          "named": true
+        },
+        {
+          "type": "function",
           "named": true
         },
         {
@@ -1111,38 +1115,19 @@
           "named": true
         },
         {
-          "type": "type_item",
+          "type": "integer",
           "named": true
         },
         {
-          "type": "variable_statement",
+          "type": "it_value",
           "named": true
         },
         {
-          "type": "whitespace",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "generics",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "boolean_type",
+          "type": "method_call_expression",
           "named": true
         },
         {
-          "type": "in_type",
-          "named": true
-        },
-        {
-          "type": "it_type",
+          "type": "method_chain_expression",
           "named": true
         },
         {
@@ -1158,19 +1143,15 @@
           "named": true
         },
         {
-          "type": "out_type",
+          "type": "parenthetical",
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
+          "type": "pre_unary_expression",
           "named": true
         },
         {
-          "type": "reference_type",
-          "named": true
-        },
-        {
-          "type": "self_type",
+          "type": "self_value",
           "named": true
         },
         {
@@ -1178,7 +1159,38 @@
           "named": true
         },
         {
+          "type": "string",
+          "named": true
+        },
+        {
           "type": "symbolic_entry",
+          "named": true
+        },
+        {
+          "type": "type_item",
+          "named": true
+        },
+        {
+          "type": "variable_binding",
+          "named": true
+        },
+        {
+          "type": "variable_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "generics",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "name",
           "named": true
         }
       ]
@@ -1201,7 +1213,7 @@
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
+          "type": "parenthetical",
           "named": true
         },
         {
@@ -1373,10 +1385,6 @@
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
-          "named": true
-        },
-        {
           "type": "parenthetical",
           "named": true
         },
@@ -1442,7 +1450,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -1501,10 +1509,6 @@
           },
           {
             "type": "object",
-            "named": true
-          },
-          {
-            "type": "parenthesized_symbol",
             "named": true
           },
           {
@@ -1608,7 +1612,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -1646,7 +1650,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -1711,7 +1715,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -1808,7 +1812,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -1839,15 +1843,47 @@
     }
   },
   {
-    "type": "parenthesized_symbol",
+    "type": "parenthetical",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
       "required": false,
       "types": [
         {
+          "type": "abstract_item",
+          "named": true
+        },
+        {
+          "type": "binary_expression",
+          "named": true
+        },
+        {
           "type": "boolean_type",
+          "named": true
+        },
+        {
+          "type": "call_expression",
+          "named": true
+        },
+        {
+          "type": "extend_item",
+          "named": true
+        },
+        {
+          "type": "field_expression",
+          "named": true
+        },
+        {
+          "type": "function",
+          "named": true
+        },
+        {
+          "type": "function_item",
+          "named": true
+        },
+        {
+          "type": "impl_item",
           "named": true
         },
         {
@@ -1855,7 +1891,23 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
           "type": "it_type",
+          "named": true
+        },
+        {
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
+          "named": true
+        },
+        {
+          "type": "method_chain_expression",
           "named": true
         },
         {
@@ -1875,7 +1927,11 @@
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
+          "type": "parenthetical",
+          "named": true
+        },
+        {
+          "type": "pre_unary_expression",
           "named": true
         },
         {
@@ -1887,46 +1943,27 @@
           "named": true
         },
         {
+          "type": "self_value",
+          "named": true
+        },
+        {
           "type": "specific_symbol",
+          "named": true
+        },
+        {
+          "type": "string",
           "named": true
         },
         {
           "type": "symbolic_entry",
           "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "parenthetical",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "abstract_item",
-          "named": true
-        },
-        {
-          "type": "expression_statement",
-          "named": true
-        },
-        {
-          "type": "extend_item",
-          "named": true
-        },
-        {
-          "type": "function_item",
-          "named": true
-        },
-        {
-          "type": "impl_item",
-          "named": true
         },
         {
           "type": "type_item",
+          "named": true
+        },
+        {
+          "type": "variable_binding",
           "named": true
         },
         {
@@ -1986,10 +2023,6 @@
         },
         {
           "type": "object",
-          "named": true
-        },
-        {
-          "type": "parenthesized_symbol",
           "named": true
         },
         {
@@ -2060,7 +2093,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -2112,7 +2145,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -2158,7 +2191,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -2233,7 +2266,7 @@
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
+          "type": "parenthetical",
           "named": true
         },
         {
@@ -2269,11 +2302,23 @@
           "named": true
         },
         {
-          "type": "expression_statement",
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
           "named": true
         },
         {
           "type": "extend_item",
+          "named": true
+        },
+        {
+          "type": "field_expression",
+          "named": true
+        },
+        {
+          "type": "function",
           "named": true
         },
         {
@@ -2285,7 +2330,63 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
+          "named": true
+        },
+        {
+          "type": "method_chain_expression",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "named_entry",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthetical",
+          "named": true
+        },
+        {
+          "type": "pre_unary_expression",
+          "named": true
+        },
+        {
+          "type": "self_value",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbolic_entry",
+          "named": true
+        },
+        {
           "type": "type_item",
+          "named": true
+        },
+        {
+          "type": "variable_binding",
           "named": true
         },
         {
@@ -2312,7 +2413,7 @@
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
+          "type": "parenthetical",
           "named": true
         },
         {
@@ -2367,7 +2468,7 @@
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
+          "type": "parenthetical",
           "named": true
         },
         {
@@ -2444,11 +2545,23 @@
           "named": true
         },
         {
-          "type": "expression_statement",
+          "type": "binary_expression",
+          "named": true
+        },
+        {
+          "type": "call_expression",
           "named": true
         },
         {
           "type": "extend_item",
+          "named": true
+        },
+        {
+          "type": "field_expression",
+          "named": true
+        },
+        {
+          "type": "function",
           "named": true
         },
         {
@@ -2460,7 +2573,63 @@
           "named": true
         },
         {
+          "type": "integer",
+          "named": true
+        },
+        {
+          "type": "it_value",
+          "named": true
+        },
+        {
+          "type": "method_call_expression",
+          "named": true
+        },
+        {
+          "type": "method_chain_expression",
+          "named": true
+        },
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "named_entry",
+          "named": true
+        },
+        {
+          "type": "object",
+          "named": true
+        },
+        {
+          "type": "parenthetical",
+          "named": true
+        },
+        {
+          "type": "pre_unary_expression",
+          "named": true
+        },
+        {
+          "type": "self_value",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
+          "type": "string",
+          "named": true
+        },
+        {
+          "type": "symbolic_entry",
+          "named": true
+        },
+        {
           "type": "type_item",
+          "named": true
+        },
+        {
+          "type": "variable_binding",
           "named": true
         },
         {
@@ -2487,7 +2656,7 @@
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
+          "type": "parenthetical",
           "named": true
         },
         {
@@ -2559,7 +2728,7 @@
           "named": true
         },
         {
-          "type": "parenthesized_symbol",
+          "type": "parenthetical",
           "named": true
         },
         {
@@ -2628,7 +2797,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -2701,10 +2870,6 @@
         },
         {
           "type": "object",
-          "named": true
-        },
-        {
-          "type": "parenthesized_symbol",
           "named": true
         },
         {
@@ -2785,7 +2950,7 @@
             "named": true
           },
           {
-            "type": "parenthesized_symbol",
+            "type": "parenthetical",
             "named": true
           },
           {
@@ -2941,6 +3106,10 @@
     "named": false
   },
   {
+    "type": "@",
+    "named": false
+  },
+  {
     "type": "In",
     "named": false
   },
@@ -3015,11 +3184,6 @@
   {
     "type": "type",
     "named": false
-  },
-  {
-    "type": "whitespace",
-    "named": true,
-    "extra": true
   },
   {
     "type": "{",

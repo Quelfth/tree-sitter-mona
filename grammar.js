@@ -48,7 +48,7 @@ module.exports = grammar({
 
     externals: $ => [
         $._paragraph_feed,
-        $.whitespace,
+        $._whitespace,
         $._scope_start,
         $._scope_end,
         $._angle_bracket,
@@ -61,7 +61,7 @@ module.exports = grammar({
     ],
 
     extras: $ => [
-        $.whitespace,
+        $._whitespace,
     ],
 
     conflicts: $ => [
@@ -73,6 +73,8 @@ module.exports = grammar({
         [$._expr, $._type_expr],
         [$._expr, $._type],
         [$._expr, $._referent],
+        [$.parenthetical, $._type],
+        [$.parenthetical, $.simple_parameter],
         [$.named_entry],
     ],
 
@@ -112,7 +114,7 @@ module.exports = grammar({
 
         _statement: $ => choice(
             $.variable_statement,
-            $.expression_statement,
+            $._expr,
             $._statement_item,
         ),
 
@@ -123,8 +125,6 @@ module.exports = grammar({
             $.abstract_item,
             $.impl_item,
         ),
-
-        expression_statement: $ => $._expr,
 
         variable_statement: $ => seq(
             $._expr,
@@ -174,6 +174,7 @@ module.exports = grammar({
 
         abstract_item: $ => seq(
             'decl',
+            repeat(field('generics', $.generics)),
             $._abstractable_item,
         ),
 
@@ -189,14 +190,14 @@ module.exports = grammar({
         ),
 
         function_item: $ => prec(1, seq(
-            'fn',
+            'fn', optional($._whitespace),
             optional(choice(
                 repeat1(field('generics', $.generics)),
-                seq(field('name', $.name), repeat(field('generics', $.generics))),
+                seq(field('name', $._symbol), optional(seq(optional($._whitespace), repeat1(field('generics', $.generics))))),
                 seq(repeat(field('generics', $.generics)), field('receiver', $.receiver)),
-                seq(field('name', $.name), repeat(field('generics', $.generics)), $.whitespace, field('receiver', $.receiver))
+                seq(field('name', $._symbol), optional(seq(optional($._whitespace), repeat1(field('generics', $.generics)))), $._whitespace, field('receiver', $.receiver))
             )),
-            optional($.whitespace),
+            optional($._whitespace),
             field('parameters', choice(
                 $.simple_parameter,
                 $.object,
@@ -239,7 +240,7 @@ module.exports = grammar({
             field('body', $.object),
         ),
 
-        generics: $ => scope($, '<', paragraph($, $._type, ','), '>'),
+        generics: $ => seq('@', scope($, '<', paragraph($, $.name, ','), '>')),
 
         specifics: $ => scope($, '<', paragraph($, $._type, ','), '>'),
 
@@ -250,7 +251,6 @@ module.exports = grammar({
             $.it_value,
             $._symbol,
             $.variable_binding,
-            $.parenthetical,
             $.function,
             $.object,
             $.field_expression,
@@ -267,7 +267,11 @@ module.exports = grammar({
             $.function,
         ),
 
-        parenthetical: $ => scope($, '(', $._statement_paragraph, ')'),
+        parenthetical: $ => choice(
+            scope($, '(', $._statement_paragraph, ')'),
+            mono_scope($, '(', $._type_expr, ')'),
+        ),
+
         function: $ => scope($, '{', $._statement_paragraph, '}'),
         object: $ => scope($, '[', $._member_paragraph, ']'),
 
@@ -398,11 +402,9 @@ module.exports = grammar({
             $.name,
             $.named_entry,
             $.symbolic_entry,
-            $.parenthesized_symbol,
+            $.parenthetical,
             $.specific_symbol,
         ),
-
-        parenthesized_symbol: $ => mono_scope($, '(', $._type, ')'),
 
         named_entry: $ => prec('named-entry', seq(
             choice(
