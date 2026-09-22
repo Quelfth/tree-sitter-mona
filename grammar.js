@@ -189,6 +189,20 @@ module.exports = grammar({
             $._abstractable_item,
         ),
 
+        where_clause: $ => seq(
+            'where',
+            scope($, '{', paragraph($, $.where_bound, ','), '}')
+        ),
+
+        where_bound: $ => seq(
+            field('boundee', $._type),
+            ':',
+            choice(
+                field('bound', $._symbol),
+                scope($, '{', paragraph($, $._symbol, ','), '}'),
+            ),
+        ),
+
         function_item: $ => prec(1, seq(
             'fn', optional($._whitespace),
             optional(choice(
@@ -204,6 +218,7 @@ module.exports = grammar({
                 $.function_block_type,
             )),
             optional(seq('->', field('return_type', choice($._type, $.function_block_type)))),
+            optional(field('where', $.where_clause)),
             optional(scope($, '{', $._statement_paragraph, '}')),
         )),
 
@@ -211,6 +226,7 @@ module.exports = grammar({
             optional(field('type', $._type)),
             choice(
                 '.',
+                '~',
                 '|>',
                 '<>',
                 '<|',
@@ -220,7 +236,7 @@ module.exports = grammar({
         simple_parameter: $ => mono_scope($, '(', optional($._type), ')'),
 
         function_block_type: $ => mono_scope($, '{', seq(
-            field('parameter', choice($._type, $.function_block_type)),
+            optional(field('parameter', choice($._type, $.function_block_type))),
             optional(seq('->', field('return_type', choice($._type, $.function_block_type)))),
         ), '}'),
 
@@ -236,11 +252,20 @@ module.exports = grammar({
 
         extend_item: $ => seq(
             'extend',
+            repeat(field('generics', $.generics)),
             field('type', $._type),
             field('body', $.object),
         ),
 
-        generics: $ => seq('@', scope($, '<', paragraph($, $.name, ','), '>')),
+        generics: $ => seq('@', scope($, '<', paragraph($, $._generic, ','), '>')),
+
+        _generic: $ => choice(
+            $.type_generic,
+            $.referent_generic,
+        ),
+
+        type_generic: $ => $.name,
+        referent_generic: $ => seq($.name, choice('.', '~')),
 
         specifics: $ => scope($, '<', paragraph($, $._type, ','), '>'),
 
@@ -275,7 +300,7 @@ module.exports = grammar({
         function: $ => scope($, '{', $._statement_paragraph, '}'),
         object: $ => scope($, '[', $._member_paragraph, ']'),
 
-        field_expression: $ => prec.left('postfix', seq(field('value', $._expr), '.', field('field', $._symbol))),
+        field_expression: $ => prec.left('postfix', seq(field('value', $._expr), choice('.', '~'), field('field', $._symbol))),
 
         pre_unary_expression: $ => prec.left('prefix', choice(
             seq('-', $._expr),
@@ -297,7 +322,7 @@ module.exports = grammar({
 
         method_call_expression: $ => prec.left('method', seq(
             field('value', $._expr),
-            choice('.', '|>', '<>', '<|'),
+            choice('.', '~', '|>', '<>', '<|'),
             field('method', $._symbol),
             field('argument', $._argument_expr),
         )),
@@ -337,7 +362,7 @@ module.exports = grammar({
 
         reference_type: $ => prec('reference-type', seq(
             optional(field('referent', $._referent)),
-            '.',
+            choice('.', '~'),
             field('type', $._type),
         )),
 
@@ -351,11 +376,11 @@ module.exports = grammar({
         field_referent: $ => choice(
             prec.left(seq(
                 field('value', $._referent),
-                '.',
+                choice('.', '~'),
                 field('field', $._symbol),
             )),
             prec('self-referent', seq(
-                '.',
+                choice('.', '~'),
                 field('field', $._symbol),
             )),
         ),
@@ -363,12 +388,12 @@ module.exports = grammar({
         method_referent: $ => choice(
             seq(
                 field('value', $._referent),
-                '.',
+                choice('.', '~'),
                 field('method', $._symbol),
                 '(', ')',
             ),
             seq(
-                '.',
+                choice('.', '~'),
                 field('method', $._symbol),
                 '(', ')',
             ),
@@ -376,7 +401,7 @@ module.exports = grammar({
 
         object_referent: $ => seq(
             field('value', $._referent),
-            '.',
+            choice('.', '~'),
             field('object', $.object),
         ),
 

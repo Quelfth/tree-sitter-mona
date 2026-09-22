@@ -143,7 +143,13 @@ bool tree_sitter_mona_external_scanner_scan(void* payload, TSLexer* lexer, bool 
                 lexer->result_symbol = DIVIDE;
                 return true;
             } else if (lexer->lookahead == '<') {
+                lexer->mark_end(lexer);
                 lexer->advance(lexer, false);
+                if (lexer->lookahead == '|' || lexer->lookahead == '>' || lexer->lookahead == '=') {
+                    lexer->result_symbol = WHITESPACE;
+                    return true;
+                }
+                lexer->mark_end(lexer);
                 lexer->result_symbol = LESS_THAN;
                 return true;
             } else if (lexer->lookahead == '?') {

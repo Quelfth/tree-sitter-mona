@@ -338,6 +338,16 @@
           }
         ]
       },
+      "generics": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "generics",
+            "named": true
+          }
+        ]
+      },
       "type": {
         "multiple": false,
         "required": true,
@@ -835,7 +845,7 @@
     "fields": {
       "parameter": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "boolean_type",
@@ -1076,6 +1086,16 @@
             "named": true
           }
         ]
+      },
+      "where": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "where_clause",
+            "named": true
+          }
+        ]
       }
     },
     "children": {
@@ -1190,7 +1210,11 @@
       "required": false,
       "types": [
         {
-          "type": "name",
+          "type": "referent_generic",
+          "named": true
+        },
+        {
+          "type": "type_generic",
           "named": true
         }
       ]
@@ -2215,6 +2239,21 @@
     }
   },
   {
+    "type": "referent_generic",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "rest_item",
     "named": true,
     "fields": {}
@@ -2671,6 +2710,21 @@
     }
   },
   {
+    "type": "type_generic",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "type_item",
     "named": true,
     "fields": {
@@ -2974,6 +3028,133 @@
     }
   },
   {
+    "type": "where_bound",
+    "named": true,
+    "fields": {
+      "bound": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "named_entry",
+            "named": true
+          },
+          {
+            "type": "parenthetical",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
+            "type": "symbolic_entry",
+            "named": true
+          }
+        ]
+      },
+      "boundee": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "boolean_type",
+            "named": true
+          },
+          {
+            "type": "in_type",
+            "named": true
+          },
+          {
+            "type": "it_type",
+            "named": true
+          },
+          {
+            "type": "name",
+            "named": true
+          },
+          {
+            "type": "named_entry",
+            "named": true
+          },
+          {
+            "type": "object",
+            "named": true
+          },
+          {
+            "type": "out_type",
+            "named": true
+          },
+          {
+            "type": "parenthetical",
+            "named": true
+          },
+          {
+            "type": "reference_type",
+            "named": true
+          },
+          {
+            "type": "self_type",
+            "named": true
+          },
+          {
+            "type": "specific_symbol",
+            "named": true
+          },
+          {
+            "type": "symbolic_entry",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "named_entry",
+          "named": true
+        },
+        {
+          "type": "parenthetical",
+          "named": true
+        },
+        {
+          "type": "specific_symbol",
+          "named": true
+        },
+        {
+          "type": "symbolic_entry",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "where_clause",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "where_bound",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "!",
     "named": false
   },
@@ -3183,6 +3364,10 @@
   },
   {
     "type": "type",
+    "named": false
+  },
+  {
+    "type": "where",
     "named": false
   },
   {
